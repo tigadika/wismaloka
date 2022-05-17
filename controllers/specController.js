@@ -1,11 +1,13 @@
-const { Specifitation } = require("../models/index");
+const { Specification } = require("../models/index");
 
 class SpecController {
-  static async getAllSpecs(req, res) {
-    
+  static async getAllSpecs(req, res, next) {
+    try {
+      const specs = await Specification.findAll();
+      res.status(200).json(specs);
+    } catch (err) {
+      next(err);
+    }
   }
-  static async createSpec(req, res) {}
-  static async updateSpec(req, res) {}
-  static async deleteSpec(req, res) {}
 }
 module.exports = SpecController;
