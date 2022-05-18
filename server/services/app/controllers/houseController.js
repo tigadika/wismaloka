@@ -1,9 +1,9 @@
-const { House, Specification, sequelize } = require("../models/index");
+const { House, Specification, sequelize, Image } = require("../models/index");
 class HouseController {
   static async getAllHouses(req, res, next) {
     try {
       const houses = await House.findAll({
-        include: [{ model: Specification }],
+        include: [Specification, Image],
       });
       res.status(200).json(houses);
     } catch (err) {
@@ -14,7 +14,7 @@ class HouseController {
     try {
       const house = await House.findOne({
         where: { id: req.params.id },
-        include: [{ model: Specification }],
+        include: [Specification, Image],
       });
       res.status(200).json(house);
     } catch (err) {
@@ -23,7 +23,8 @@ class HouseController {
   }
   static async createHouse(req, res, next) {
     const t = await sequelize.transaction();
-    let { title, price, description, location, instalment, coordinate, Specifications } = req.body;
+    let { title, price, description, location, instalment, coordinate, Specifications, Images } =
+      req.body;
     try {
       const house = await House.create(
         {
@@ -37,7 +38,9 @@ class HouseController {
         { transaction: t }
       );
       Specifications.houseId = house.id;
-      await Specification.bulkCreate(Specifications, { transaction: t });
+      Images.map((el) => (el.houseId = house.id));
+      await Specification.create(Specifications, { transaction: t });
+      await Image.bulkCreate(Images, { transaction: t });
       await t.commit();
       res.status(201).json(house);
     } catch (err) {
@@ -48,7 +51,8 @@ class HouseController {
   }
   static async updateHouse(req, res, next) {
     const t = await sequelize.transaction();
-    let { title, price, description, location, instalment, coordinate, Specifications } = req.body;
+    let { title, price, description, location, instalment, coordinate, Specifications, Images } =
+      req.body;
     try {
       await House.update(
         {
@@ -69,8 +73,11 @@ class HouseController {
         };
       }
       Specifications.houseId = req.params.id;
+      Images.map((el) => (el.houseId = house.id));
       await Specification.destroy({ where: { houseId: req.params.id }, transaction: t });
-      await Specification.bulkCreate(Specifications, { transaction: t });
+      await Image.destroy({ where: { houseId: req.params.id }, transaction: t });
+      await Specification.create(Specifications, { transaction: t });
+      await Image.bulkCreate(Images, { transaction: t });
       await t.commit();
       res.status(200).json(house);
     } catch (err) {

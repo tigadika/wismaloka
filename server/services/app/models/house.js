@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       House.hasOne(models.Specification, { foreignKey: "houseId" });
+      House.hasMany(models.Image, { foreignKey: "houseId" });
     }
   }
   House.init(
@@ -89,6 +90,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      userId: DataTypes.INTEGER,
     },
     {
       sequelize,
