@@ -11,7 +11,7 @@ const authentication = async (req, res, next) => {
 
     // console.log(getUser, "<<<<<<<<<<<<<<<<");
     if (!getUser) {
-      throw { name: "Authentification Failed", statusCode: 401 };
+      throw { name: "AuthFail", statusCode: 401 };
     } else {
       req.user = {
         id: getUser.id,
