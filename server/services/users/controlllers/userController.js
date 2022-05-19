@@ -7,6 +7,7 @@ class UserController {
   //Register Admin
   static async adminRegister(req, res, next) {
     try {
+     
       const { username, email, password, phoneNumber, isPremium } = req.body;
 
       // console.log(req.body, "======");
@@ -280,7 +281,7 @@ class UserController {
 
       const getUser = await User.findByPk(id);
       if (getUser <= 0) {
-        throw { name: "Data Not Found" };
+        throw { name: "Data not found" };
       }
 
       await User.destroy({ where: { id } });

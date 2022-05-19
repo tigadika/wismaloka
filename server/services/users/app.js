@@ -4,7 +4,6 @@ if(process.env.NODE_ENV !== 'production'){
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
 const index = require("./routes/index");
 const errHandle = require("./middlewares/errHandler");
 
@@ -15,6 +14,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use("/", index);
 
 app.use(errHandle);
+
 
 
 module.exports = app

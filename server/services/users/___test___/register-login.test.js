@@ -5,7 +5,10 @@ const { User } = require("../models");
 beforeAll(async () => {
   await User.destroy({ truncate: true, cascade: true, restartIdentity: true });
 });
+
 let access_token = null;
+
+
 describe("acceptance test for register feature", () => {
   test("should return id,email,username, and role with status code 201 for new user that registered as Admin", async () => {
     const payload = {
@@ -16,6 +19,34 @@ describe("acceptance test for register feature", () => {
   
     const res = await request(app).post("/users/registerAdmin").send(payload);
     expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty("Code", expect.any(Number));
+    expect(res.body).toHaveProperty("data");
+    expect(res.body.data).toHaveProperty("id", expect.any(Number));
+    expect(res.body.data).toHaveProperty(
+      "email",
+      expect.stringContaining(payload.email)
+    );
+    expect(res.body.data).toHaveProperty(
+      "username",
+      expect.stringContaining(payload.username)
+    );
+    expect(res.body.data).toHaveProperty(
+      "role",
+      expect.stringContaining("Admin")
+    );
+  });
+
+  test("should return id,email,username, and role with status code 201 for new user that registered as Admin", async () => {
+ 
+    
+    const payload = {
+      username: "testAdmin1",
+      password: "123456",
+      email: "testAdmin1@gmail.com",
+    };
+  
+    const res = await request(app).post("/users/registerAdmin").field(payload)
+    expect(res.status).toBe(201)
     expect(res.body).toHaveProperty("Code", expect.any(Number));
     expect(res.body).toHaveProperty("data");
     expect(res.body.data).toHaveProperty("id", expect.any(Number));
@@ -444,10 +475,24 @@ describe("failed test for get users by id feature", () => {
 
 
 describe("succes test for delete users by id feature with access_token", () => {
-    test("should delete user by id with access_token", async () => {
+    test("should delete user by id with admin access_token", async () => {
         const res = await request(app).delete("/users/1").set("access_token", access_token)
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty("msg", expect.stringContaining("delete user with id 1 success"))
+      });
+
+      test("should delete user by id with same userId access_token", async () => {
+        const payload = {
+            email: "testAgen@gmail.com",
+            password: "123456",
+          };
+      
+          const login = await request(app).post("/users/login").send(payload);
+          access_token = login.body.access_token;
+          expect(login.status).toBe(200);
+          const res = await request(app).delete("/users/3").set("access_token", access_token)
+        expect(res.status).toBe(200);
+        
       });
 });
 
@@ -463,7 +508,37 @@ describe("failed test for delete users by id feature without access_token", () =
         expect(res.status).toBe(401);
         expect(res.body).toHaveProperty("message", expect.stringContaining("You are not authorized"))
       });
+
+      test("should return message forbidden access when userId not same as deleted user", async () => {
+        const payloadAgen = {
+            username: "testAgen1",
+            password: "123456",
+            email: "testAgen1@gmail.com",
+          };
+          const registerSecondAgen = await request(app).post("/users/registerAgen").send(payloadAgen);
+          expect(registerSecondAgen.status).toBe(201);
+
+         
+          const login = await request(app).post("/users/login").send({
+              email: payloadAgen.email,
+              password: payloadAgen.password
+          });
+          access_token = login.body.access_token;
+          expect(login.status).toBe(200);
+          
+          const res = await request(app).delete("/users/4").set("access_token", access_token)
+          expect(res.status).toBe(403)
+          expect(res.body).toHaveProperty("message", expect.stringContaining("Forbidden Access"))
+      });
+
+      test("should return message forbidden access when userId not found in database", async () => {
+          const res = await request(app).delete("/users/500").set("access_token", access_token)
+          expect(res.status).toBe(404)
+      
+      });
+
 });
+
 
 describe("calling endpoint with wrong access point", () => {
     test("should return internal server error", async () => {
