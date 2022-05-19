@@ -7,7 +7,7 @@ class UserController {
   //Register Admin
   static async adminRegister(req, res, next) {
     try {
-      const { username, email, password, phoneNumber } = req.body;
+      const { username, email, password, phoneNumber, isPremium } = req.body;
 
       // console.log(req.body, "======");
 
@@ -25,6 +25,7 @@ class UserController {
         phoneNumber,
         profilePict,
         role: "Admin",
+        isPremium,
       });
 
       await UserHouse.create({
@@ -48,7 +49,7 @@ class UserController {
   //Register Agen
   static async agenRegister(req, res, next) {
     try {
-      const { username, email, password, phoneNumber } = req.body;
+      const { username, email, password, phoneNumber, isPremium } = req.body;
 
       const { buffer, originalname } = req.file;
       // console.log(req.file, "<<<<<<");
@@ -62,6 +63,7 @@ class UserController {
         phoneNumber,
         profilePict,
         role: "Agen",
+        isPremium,
       });
 
       await UserHouse.create({
@@ -84,7 +86,7 @@ class UserController {
   //Register User
   static async userRegister(req, res, next) {
     try {
-      const { username, email, password, phoneNumber } = req.body;
+      const { username, email, password, phoneNumber, isPremium } = req.body;
 
       const { buffer, originalname } = req.file;
       // console.log(req.file, "<<<<<<");
@@ -98,6 +100,7 @@ class UserController {
         phoneNumber,
         profilePict,
         role: "User",
+        isPremium,
       });
 
       await UserHouse.create({

@@ -49,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       phoneNumber: DataTypes.STRING,
       profilePict: DataTypes.STRING,
       role: DataTypes.STRING,
+      isPremium: DataTypes.BOOLEAN,
     },
     {
       sequelize,
