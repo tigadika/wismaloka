@@ -10,36 +10,59 @@ class UserController {
       const { username, email, password, phoneNumber, isPremium } = req.body;
 
       // console.log(req.body, "======");
+      if (req.file) {
+        const { buffer, originalname } = req.file;
+        // console.log(req.file, "<<<<<<");
+        const result = await imageKit(buffer, originalname);
+        const profilePict = result.data.url;
+        const newUser = await User.create({
+          username,
+          email,
+          password,
+          phoneNumber,
+          profilePict,
+          role: "Admin",
+          isPremium,
+        });
 
-      const { buffer, originalname } = req.file;
-      // console.log(req.file, "<<<<<<");
-      const result = await imageKit(buffer, originalname);
-      const profilePict = result.data.url;
+        await UserHouse.create({
+          UserId: newUser.id,
+        });
+
+        res.status(201).json({
+          Code: 201,
+          data: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+          },
+        });
+      } else {
+        const newUser = await User.create({
+          username,
+          email,
+          password,
+          phoneNumber,
+          role: "Admin",
+          isPremium,
+        });
+
+        await UserHouse.create({
+          UserId: newUser.id,
+        });
+
+        res.status(201).json({
+          Code: 201,
+          data: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            role: newUser.role,
+          },
+        });
+      }
 
       // console.log(result.data, "++++++");
-
-      const newUser = await User.create({
-        username,
-        email,
-        password,
-        phoneNumber,
-        profilePict,
-        role: "Admin",
-        isPremium,
-      });
-
-      await UserHouse.create({
-        UserId: newUser.id,
-      });
-
-      res.status(201).json({
-        Code: 201,
-        data: {
-          id: newUser.id,
-          username: newUser.username,
-          email: newUser.email,
-        },
-      });
     } catch (error) {
       console.log(error);
       next(error);
@@ -50,35 +73,61 @@ class UserController {
   static async agenRegister(req, res, next) {
     try {
       const { username, email, password, phoneNumber, isPremium } = req.body;
+      if (req.file) {
+        const { buffer, originalname } = req.file;
 
-      const { buffer, originalname } = req.file;
-      // console.log(req.file, "<<<<<<");
-      const result = await imageKit(buffer, originalname);
-      const profilePict = result.data.url;
+        const result = await imageKit(buffer, originalname);
+        const profilePict = result.data.url;
 
-      const newUser = await User.create({
-        username,
-        email,
-        password,
-        phoneNumber,
-        profilePict,
-        role: "Agen",
-        isPremium,
-      });
+        const newUser = await User.create({
+          username,
+          email,
+          password,
+          phoneNumber,
+          profilePict,
+          role: "Agen",
+          isPremium,
+        });
 
-      await UserHouse.create({
-        UserId: newUser.id,
-      });
+        await UserHouse.create({
+          UserId: newUser.id,
+        });
 
-      res.status(201).json({
-        Code: 201,
-        data: {
-          id: newUser.id,
-          username: newUser.username,
-          email: newUser.email,
-        },
-      });
+        res.status(201).json({
+          Code: 201,
+          data: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+          },
+        });
+      } else{
+        const newUser = await User.create({
+          username,
+          email,
+          password,
+          phoneNumber,
+          role: "Agen",
+          isPremium,
+        });
+
+        await UserHouse.create({
+          UserId: newUser.id,
+        });
+
+        res.status(201).json({
+          Code: 201,
+          data: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            role: newUser.role,
+          },
+        });
+      }
+
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
@@ -88,33 +137,59 @@ class UserController {
     try {
       const { username, email, password, phoneNumber, isPremium } = req.body;
 
-      const { buffer, originalname } = req.file;
-      // console.log(req.file, "<<<<<<");
-      const result = await imageKit(buffer, originalname);
-      const profilePict = result.data.url;
-
-      const newUser = await User.create({
-        username,
-        email,
-        password,
-        phoneNumber,
-        profilePict,
-        role: "User",
-        isPremium,
-      });
-
-      await UserHouse.create({
-        UserId: newUser.id,
-      });
-
-      res.status(201).json({
-        Code: 201,
-        data: {
-          id: newUser.id,
-          username: newUser.username,
-          email: newUser.email,
-        },
-      });
+      if(req.file){
+        const { buffer, originalname } = req.file;
+        // console.log(req.file, "<<<<<<");
+        const result = await imageKit(buffer, originalname);
+        const profilePict = result.data.url;
+  
+        const newUser = await User.create({
+          username,
+          email,
+          password,
+          phoneNumber,
+          profilePict,
+          role: "User",
+          isPremium,
+        });
+  
+        await UserHouse.create({
+          UserId: newUser.id,
+        });
+  
+        res.status(201).json({
+          Code: 201,
+          data: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+          },
+        });
+      }else{
+        const newUser = await User.create({
+          username,
+          email,
+          password,
+          phoneNumber,
+          role: "User",
+          isPremium,
+        });
+  
+        await UserHouse.create({
+          UserId: newUser.id,
+        });
+  
+        res.status(201).json({
+          Code: 201,
+          data: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            role: newUser.role
+          },
+        });
+      }
+     
     } catch (error) {
       next(error);
     }
