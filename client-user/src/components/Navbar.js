@@ -19,7 +19,7 @@ export default function Navbar() {
         <Link className="mr-10 font-bold text-emerald-700" to={"/"}>
           Home
         </Link>
-        <Link className="mr-10 font-bold text-emerald-700" to={"/"}>
+        <Link className="mr-10 font-bold text-emerald-700" to={"/all"}>
           Listings
         </Link>
         <Link className="mr-10 font-bold text-emerald-700" to={"/"}>

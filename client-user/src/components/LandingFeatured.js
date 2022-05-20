@@ -7,7 +7,7 @@ export default function LandingFeatured() {
       <p className="text-3xl font-bold tracking-wide mb-3">Finding home</p>
       <div className="flex flex-row mb-5">
         <p className="text-3xl font-bold tracking-wide">as</p>
-        <p className="text-emerald-400 mx-2 text-3xl font-bold tracking-wide">
+        <p className="text-emerald-700 mx-2 text-3xl font-bold tracking-wide">
           easy
         </p>
         <p className="text-3xl font-bold tracking-wide">as 1, 2, 3..</p>
