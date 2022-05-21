@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       House.hasOne(models.Specification, { foreignKey: "houseId" });
       House.hasMany(models.Image, { foreignKey: "houseId" });
+      House.belongsTo(models.User, { foreignKey: "UserId" });
     }
   }
   House.init(
@@ -39,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
           notEmpty: {
@@ -90,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      userId: DataTypes.INTEGER,
+      UserId: DataTypes.INTEGER,
     },
     {
       sequelize,
