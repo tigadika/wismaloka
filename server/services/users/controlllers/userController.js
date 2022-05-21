@@ -36,6 +36,7 @@ class UserController {
             id: newUser.id,
             username: newUser.username,
             email: newUser.email,
+            role: newUser.role
           },
         });
       } else {
@@ -100,6 +101,7 @@ class UserController {
             id: newUser.id,
             username: newUser.username,
             email: newUser.email,
+            role: newUser.role
           },
         });
       } else{
@@ -164,6 +166,7 @@ class UserController {
             id: newUser.id,
             username: newUser.username,
             email: newUser.email,
+            role: newUser.role
           },
         });
       }else{
@@ -245,6 +248,10 @@ class UserController {
       const getUser = await User.findAll({
         attributes: { exclude: ["password"] },
       });
+
+      if(getUser.length === 0) {
+        throw { name: "Data not found" };
+      }
 
       res.status(200).json({
         Code: 200,
