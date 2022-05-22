@@ -26,11 +26,36 @@ const errorHandler = (err, req, res, next) => {
         message: err.name,
       });
       break;
-      case "Required":
-        res.status(400).json({
-          message: err.message,
-        });
-        break;
+    case "Required":
+      res.status(400).json({
+        message: err.message,
+      });
+      break;
+    case "Email is required":
+      res.status(400).json({
+        message: "Email is required",
+      });
+      break;
+    case "Password is required":
+      res.status(400).json({
+        message: "Password is required",
+      });
+      break;
+    case "401":
+      res.status(401).json({
+        message: "Invalid email/password",
+      });
+      break;
+    case "Data not found":
+      res.status(404).json({
+        message: "User not found",
+      });
+      break;
+    case "AuthFail":
+      res.status(401).json({
+        message: "You are not authorized",
+      });
+      break;
     default:
       res.status(500).json({ message: "Internal Server Error" });
   }
