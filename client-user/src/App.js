@@ -5,6 +5,9 @@ import PriceSearch from "./views/PriceSearch";
 import LocationSearch from "./views/LocationSearch";
 import ListingsPage from "./views/ListingsPage";
 import DetailPage from "./views/DetailPage";
+import AgentDashboard from "./views/AgentDashboard";
+import AgentAssets from "./views/AgentAssets";
+import AgentAdd from "./views/AgentAdd";
 
 function App() {
   return (
@@ -16,6 +19,10 @@ function App() {
         </Route>
         <Route path="/all" element={<ListingsPage />}></Route>
         <Route path="/detail/:id" element={<DetailPage />}></Route>
+        <Route path="/agent" element={<AgentDashboard />}>
+          <Route path="" element={<AgentAssets />}></Route>
+          <Route path="add" element={<AgentAdd />}></Route>
+        </Route>
       </Routes>
     </div>
   );
