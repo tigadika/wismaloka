@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCardMain from "../components/ProductCardMain";
 import { FaCrown } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_USERS_BY_ID } from "../queries/houseQuery";
 
 export default function AgentAssets() {
+  const idUser = localStorage.id;
+
+  const { loading, error, data } = useQuery(GET_USERS_BY_ID, {
+    variables: {
+      getOneUserId: idUser,
+    },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :( </p>;
+
+  // console.log(loading, error, data);
+  // console.log(data.getOneUser.Houses);
+
   return (
     <>
       <div className="flex-1">
@@ -23,9 +39,14 @@ export default function AgentAssets() {
         </div>
         <div className="bg-gray-100 rounded py-5 px-14 mb-5 shadow">
           <p className="text-xl font-bold tracking-wide mb-4">List of Assets</p>
-          <ProductCardMain></ProductCardMain>
-          <ProductCardMain></ProductCardMain>
-          <ProductCardMain></ProductCardMain>
+          {data.getOneUser.Houses.map((el) => (
+            <ProductCardMain
+              key={el.id}
+              houses={el}
+              profilePict={data.getOneUser.profilePict}
+            ></ProductCardMain>
+          ))}
+          {/* <ProductCardMain></ProductCardMain> */}
           <p className="text-xl font-bold text-emerald-700 tracking-wide mt-14 mb-3">
             Regular user can only have 3 live assets.
           </p>

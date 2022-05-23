@@ -3,8 +3,21 @@ import Navbar from "../components/Navbar";
 import { FaCrown } from "react-icons/fa";
 import Footer from "../components/Footer";
 import { Outlet } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_HOUSE_BY_ID, GET_USERS_BY_ID } from "../queries/houseQuery";
 
 export default function AgentDashboard() {
+  const idUser = localStorage.id;
+
+  const { loading, error, data } = useQuery(GET_USERS_BY_ID, {
+    variables: {
+      getOneUserId: idUser,
+    },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :( </p>;
+
   return (
     <>
       <div className="mt-20 border-b-2">
@@ -26,17 +39,17 @@ export default function AgentDashboard() {
                   alt=""
                 ></img>
                 <div className="flex flex-col text-left ml-3 my-auto">
-                  <p className="font-semibold">Nama Pengiklan</p>
-                  <p className="text-sm">Role dia</p>
+                  <p className="font-semibold">{data.getOneUser.username}</p>
+                  <p className="text-sm">{data.getOneUser.role}</p>
                 </div>
               </div>
               <div className="flex flex-row justify-between mb-3">
                 <p className="text-sm">Email</p>
-                <p className="text-sm">Email si agen</p>
+                <p className="text-sm">{data.getOneUser.email}</p>
               </div>
               <div className="flex flex-row justify-between mb-10">
                 <p className="text-sm">Phone Number</p>
-                <p className="text-sm">Nomor si agen</p>
+                <p className="text-sm">{data.getOneUser.phoneNumber}</p>
               </div>
               <button className="border border-yellow-500 py-2 w-full rounded-lg text-yellow-500 hover:bg-yellow-400 hover:text-white">
                 <div className="flex flex-row justify-center">
