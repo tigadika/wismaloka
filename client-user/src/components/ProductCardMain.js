@@ -19,13 +19,9 @@ export default function ProductCardMain() {
         alt=""
       ></img>
       <div className="flex-1 flex flex-col pt-5 px-5 text-left">
-        <div className="font-bold text-xl tracking-wide">
-          Title Rumah dijual harusnya akan...
-        </div>
+        <div className="font-bold text-xl tracking-wide">Title Rumah dijual harusnya akan...</div>
         <div className="text-base tracking-wide mb-2">Lokasi Rumah dijual</div>
-        <div className="font-semibold text-base tracking-wide mb-5">
-          Rp 200.000.000
-        </div>
+        <div className="font-semibold text-base tracking-wide mb-5">Rp 200.000.000</div>
         <div className="flex flex-row mb-2">
           <div className="flex flex-row mr-3">
             3
@@ -42,15 +38,11 @@ export default function ProductCardMain() {
           <div className="flex flex-row mr-3">1300 watt</div>
         </div>
         <div className="flex flex-row mb-2">
-          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">
-            Rumah
-          </div>
+          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">Rumah</div>
           <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">
             SHM - Sertifikat Hak Milik
           </div>
-          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">
-            Cicilan
-          </div>
+          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">Cicilan</div>
         </div>
         <div className="flex flex-row mt-2">
           <img
