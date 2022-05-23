@@ -7,6 +7,8 @@ beforeAll(async () => {
   await House.destroy({ truncate: true, cascade: true, restartIdentity: true });
 });
 
+
+
 let access_token = null;
 
 describe("failed test for get houses feature", () => {
@@ -22,7 +24,7 @@ describe("acceptance test for create house feature", () => {
   test("should return res status of 201 and new house data with access_token", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -64,7 +66,7 @@ describe("acceptance test for create house feature", () => {
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty("title");
 
-  });
+  }, 10000);
 });
 
 describe("failed test for create house feature", () => {
@@ -108,7 +110,7 @@ describe("failed test for create house feature", () => {
   test("should return error message of Title is required when not provided with title", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -150,12 +152,12 @@ describe("failed test for create house feature", () => {
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty("message", "Title is required")
 
-  });
+  },10000);
 
   test("should return error message of Price is required when not provided with Price", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -197,12 +199,12 @@ describe("failed test for create house feature", () => {
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty("message", "Price is required")
 
-  });
+  }, 10000);
 
   test("should return error message of Description is required when not provided with Description", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -244,12 +246,12 @@ describe("failed test for create house feature", () => {
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty("message", "Description is required")
 
-  });
+  }, 10000);
 
   test("should return error message of Location is required when not provided with Location", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -291,12 +293,12 @@ describe("failed test for create house feature", () => {
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty("message", "Location is required")
 
-  });
+  }, 10000);
 
   test("should return error message of Instalment is required when not provided with Instalment", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -343,7 +345,7 @@ describe("failed test for create house feature", () => {
   test("should return error message of Coordinate is required when not provided with Coordinate", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -385,12 +387,12 @@ describe("failed test for create house feature", () => {
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty("message", "Coordinate is required")
 
-  });
+  }, 10000);
 
   test("should return error message of 500 internal server error when attached more than 5 images", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -437,12 +439,12 @@ describe("failed test for create house feature", () => {
     expect(res.status).toBe(500);
 
 
-  });
+  }, 10000);
 
   test("should return error message of image is required when image is not provided", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser).post("/users/login").send(payloadLogin);
@@ -484,7 +486,7 @@ describe("failed test for create house feature", () => {
     expect(res.status).toBe(400);
 
 
-  });
+  }, 10000);
 });
 
 describe("acceptance test for get houses feature", () => {
@@ -499,7 +501,7 @@ describe("acceptance test for get houses feature", () => {
     expect(res.body[0]).toHaveProperty("coordinate");
     expect(res.body[0]).toHaveProperty("userId");
 
-  });
+  }, 10000);
 });
 
 describe("acceptance test for get houses by id feature", () => {
@@ -765,7 +767,7 @@ describe("acceptance test for delete house feature", () => {
     expect(res.status).toBe(200)
     expect(res.body).toHaveProperty("message", "House deleted")
 
-  });
+  }, 10000);
 });
 
 describe("failed test for delete house feature", () => {
@@ -778,7 +780,7 @@ describe("failed test for delete house feature", () => {
   test("should return res status of 404 when data with defined id is not found ", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser)
@@ -856,10 +858,10 @@ describe("acceptance test for get spesification feature", () => {
 });
 
 describe("failed test for get spesification feature", () => {
-  test("should return spesification table when accessed", async () => {
+  test("should return res status of 404 when data is not found", async () => {
     const payloadLogin = {
       password: "123456",
-      email: "testAdmin@gmail.com",
+      email: "testAdmin1@gmail.com",
     };
 
     const loginAdmin = await request(appUser)
