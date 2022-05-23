@@ -45,7 +45,7 @@ class HouseController {
   }
   static async createHouse(req, res, next) {
     const t = await sequelize.transaction();
-    const userId = req.user.id;
+    // const userId = req.user.id;
     let {
       title,
       price,
@@ -66,14 +66,15 @@ class HouseController {
           instalment,
           latitude,
           longitude,
-          userId,
+          userId: 1,
         },
         { transaction: t }
       );
-
+        console.log(req.body, "<<<<<<<<<<<<<<<");
       let Images = req.uploadImages;
-
+        console.log(house.id);
       Specifications.houseId = house.id;
+      console.log("Specifications.houseId: ", Specifications.houseId);
       Images.map((el) => (el.houseId = house.id));
       await Specification.create(Specifications, { transaction: t });
       await Image.bulkCreate(Images, { transaction: t });
