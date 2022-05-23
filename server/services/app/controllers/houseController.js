@@ -2,9 +2,19 @@ const { House, Specification, sequelize, Image } = require("../models/index");
 class HouseController {
   static async getAllHouses(req, res, next) {
     try {
-      const houses = await House.findAll({
-        include: [Specification, Image],
-      });
+      const { userId } = req.query;
+      let options;
+      if (userId) {
+        options = {
+          where: { userId },
+          include: [Specification, Image],
+        };
+      } else {
+        options = {
+          include: [Specification, Image],
+        };
+      }
+      const houses = await House.findAll(options);
       if (houses.length === 0) {
         throw {
           name: "Not Found",

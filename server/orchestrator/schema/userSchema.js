@@ -8,6 +8,7 @@ const axios = require("axios");
 // const { finished } = require("stream/promises");
 
 const urlUser = "http://localhost:3000";
+const urlHouse = "http://localhost:3001";
 
 const typeDefs = gql`
   # scalar Upload
@@ -37,6 +38,7 @@ const typeDefs = gql`
     profilePict: String
     role: String
     isPremium: Boolean
+    Houses: [House]
   }
 
   input loginInput {
@@ -79,7 +81,15 @@ const resolvers = {
         const { id } = args;
         const { data } = await axios.get(`${urlUser}/users/${id}`);
         // console.log(data, "====");
-        return data.data;
+
+        const user = data.data;
+        const { data: house } = await axios.get(
+          `${urlHouse}/houses?userId=${id}`
+        );
+        // console.log(house);
+        user.Houses = house;
+
+        return user;
       } catch (error) {
         console.log(error);
       }

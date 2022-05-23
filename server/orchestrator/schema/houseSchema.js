@@ -30,7 +30,7 @@ const typeDefs = gql`
     email: String
     role: String
   }
-  type Houses {
+  type House {
     id: ID
     title: String
     price: String
@@ -61,15 +61,15 @@ const typeDefs = gql`
   #   profilePict: [String]
   # }
   type Query {
-    getHouse: [Houses]
-    getOneHouse(id: ID): Houses
+    getHouse: [House]
+    getOneHouse(id: ID): House
     # getGenre: [Genres]
   }
 
   type Mutation {
     # addHouse(newHouse: HouseInput): Houses
     # editMovie(id: ID, newHouse: HouseInput): Houses
-    removeHouse(id: ID): Houses
+    removeHouse(id: ID): House
   }
 `;
 
