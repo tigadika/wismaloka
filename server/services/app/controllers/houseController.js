@@ -35,8 +35,17 @@ class HouseController {
   }
   static async createHouse(req, res, next) {
     const t = await sequelize.transaction();
-    const userId = req.user.id
-    let { title, price, description, location, instalment, coordinate, Specifications } = req.body;
+    const userId = req.user.id;
+    let {
+      title,
+      price,
+      description,
+      location,
+      instalment,
+      latitude,
+      longitude,
+      Specifications,
+    } = req.body;
     try {
       const house = await House.create(
         {
@@ -45,8 +54,9 @@ class HouseController {
           description,
           location,
           instalment,
-          coordinate,
-          userId
+          latitude,
+          longitude,
+          userId,
         },
         { transaction: t }
       );
@@ -67,11 +77,17 @@ class HouseController {
   }
   static async updateHouse(req, res, next) {
     const t = await sequelize.transaction();
-    let { title, price, description, location, instalment, coordinate, Specifications } =
-      req.body;
+    let {
+      title,
+      price,
+      description,
+      location,
+      instalment,
+      latitude,
+      longitude,
+      Specifications,
+    } = req.body;
     try {
-
-    
       const houseUpdate = await House.update(
         {
           title,
@@ -79,15 +95,16 @@ class HouseController {
           description,
           location,
           instalment,
-          coordinate,
+          latitude,
+          longitude,
         },
         { where: { id: req.params.id }, transaction: t }
       );
       const findHouse = await House.findOne({
-        where:{
-          id: req.params.id
-        }
-      })
+        where: {
+          id: req.params.id,
+        },
+      });
 
       if (!findHouse) {
         throw {
@@ -99,16 +116,21 @@ class HouseController {
       Specifications.houseId = req.params.id;
 
       Images.map((el) => (el.houseId = houseUpdate.id));
-      await Specification.destroy({ where: { houseId: req.params.id }, transaction: t });
-      await Image.destroy({ where: { houseId: req.params.id }, transaction: t });
+      await Specification.destroy({
+        where: { houseId: req.params.id },
+        transaction: t,
+      });
+      await Image.destroy({
+        where: { houseId: req.params.id },
+        transaction: t,
+      });
       await Specification.create(Specifications, { transaction: t });
       await Image.bulkCreate(Images, { transaction: t });
       await t.commit();
-     
 
       res.status(200).json({
         message: `House with id ${req.params.id} succesfully updated`,
-        data: findHouse
+        data: findHouse,
       });
     } catch (err) {
       await t.rollback();

@@ -2,6 +2,7 @@ const { comparePass } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 const { imageKit } = require("../middlewares/imgKitMulter");
 const { User, UserHouse } = require("../models/index");
+const snap = require("../helpers/midtrans");
 
 class UserController {
   //Register Admin
