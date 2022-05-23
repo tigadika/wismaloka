@@ -4,8 +4,21 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import Footer from "../components/Footer";
 import { FaCommentDots } from "react-icons/fa";
-
+import { useParams } from "react-router-dom";
+import { GET_HOUSE_BY_ID } from "../queries/houseQuery";
+import { useQuery } from "@apollo/client";
 export default function DetailPage() {
+  const { id } = useParams();
+  const { loading, error, data } = useQuery(GET_HOUSE_BY_ID, {
+    variables: { getOneHouseId: id },
+  });
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+  const house = data.getOneHouse;
+  let number = +house.price;
+  let instalment = +house.instalment;
+  const price = number.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
+  instalment = instalment.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
   return (
     <>
       <div className="mt-20 border-b-2">
@@ -13,29 +26,21 @@ export default function DetailPage() {
       </div>
       <div className="mt-10 mx-24">
         <div className="text-left mb-5">
-          <p className="text-2xl font-bold tracking-wide mb-5">
-            Dijual Rumah dimana yaaa. Pokoknya ada deh.
-          </p>
-          <p className="text-lg">Lokasinya disini ya ges. Coba cari aku.</p>
+          <p className="text-2xl font-bold tracking-wide mb-5">{house.title}</p>
+          <p className="text-lg">{house.location}</p>
         </div>
         <div className="w-full">
           <Carousel showArrows={true} autoPlay={3000} infiniteLoop={true}>
-            <div>
-              <img src={require("../assets/hero1.png")} alt=""></img>
-            </div>
-            <div>
-              <img src={require("../assets/hero2.png")} alt=""></img>
-            </div>
-            <div>
-              <img src={require("../assets/logo1.png")} alt=""></img>
-            </div>
+            {house.Images.map((image) => (
+              <div className="h-full">
+                <img src={image.image} alt="image" className="h-full"></img>
+              </div>
+            ))}
           </Carousel>
         </div>
         <div className="flex flex-row mb-10">
           <div className="flex-1 text-left">
-            <p className="text-2xl font-bold tracking-wide mb-5">
-              Property Information
-            </p>
+            <p className="text-2xl font-bold tracking-wide mb-5">Property Information</p>
             <div className="flex flex-row mb-8">
               <div className="flex flex-col mr-20">
                 <p className="text-gray-500 mb-2">Price</p>
@@ -45,11 +50,11 @@ export default function DetailPage() {
                 <p className="text-gray-500 mb-2">Bathroom</p>
               </div>
               <div className="flex flex-col w-48 px-2 bg-gray-100 mr-2">
-                <p className="mb-2">Rp 200.000.000</p>
-                <p className="mb-2">182 m2</p>
-                <p className="mb-2">100 m2</p>
-                <p className="mb-2">3</p>
-                <p className="mb-2">2</p>
+                <p className="mb-2">{price}</p>
+                <p className="mb-2">{house.Specification.luasTanah} m2</p>
+                <p className="mb-2">{house.Specification.luasBangunan} m2</p>
+                <p className="mb-2">{house.Specification.totalBedroom}</p>
+                <p className="mb-2">{house.Specification.totalBathroom}</p>
               </div>
               <div className="flex flex-col mr-20">
                 <p className="text-gray-500 mb-2">Sertifikat</p>
@@ -57,46 +62,30 @@ export default function DetailPage() {
                 <p className="text-gray-500 mb-2">Cicilan</p>
               </div>
               <div className="flex flex-col w-48 px-2 bg-gray-100">
-                <p className="mb-2">SHM</p>
-                <p className="mb-2">1300 watt</p>
-                <p className="mb-2">No</p>
+                <p className="mb-2">{house.Specification.certificate}</p>
+                <p className="mb-2">{house.Specification.dayaListrik} watt</p>
+                <p className="mb-2">{instalment}</p>
               </div>
             </div>
             <div className="border-b-2"></div>
             <p className="text-2xl font-bold tracking-wide my-5">Description</p>
             <div className="bg-gray-100 w-5/6 p-2 mb-10">
-              <p>
-                Rumah siap huni di komplek griya caraka <br />
-                <br /> Luas Tanah 150 m2
-                <br /> Luas Bangunan 100 m2
-                <br /> 3 Kamar Tidur
-                <br /> 2 Kamar Mandi
-                <br /> Carport 2 mobil
-                <br /> Taman kecil depan
-                <br /> Sumber Air Artesis komplek
-                <br /> Listrik 2200 Watt
-                <br />
-                <br /> . Siapa cepat dia dapat, bangunan kokoh terawat .
-                Legalitas PBB, IMB dan Sertifikat hak milik Bisa di KPR kan
-                <br />
-                <br />
-                Harga 1.5 M
-              </p>
+              <p>{house.description}</p>
             </div>
             <div className="border-b-2"></div>
-            <p className="text-2xl font-bold tracking-wide my-5">
-              Location Map
-            </p>
+            <p className="text-2xl font-bold tracking-wide my-5">Location Map</p>
             <div className="bg-gray-100 w-5/6 h-96 p-2 mb-10">
-              Google Maps Container
+              <img
+                alt=""
+                src={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+502486(${house.longitude},${house.latitude})/${house.longitude},${house.latitude},13,0/400x300?access_token=pk.eyJ1IjoiYmF5cHVuayIsImEiOiJjbDNmbWkxdGwwazc4M2NvNHdleDZrZXI2In0.AripD-1j1dEgfKyBBT1eQg`}
+                className="w-full h-full"
+              />
             </div>
           </div>
           <div className="w-1/3 flex">
             <div className="flex flex-col p-4 w-full">
               <div className="sticky top-12 border p-4">
-                <div className="text-2xl font-bold text-emerald-700 mb-5">
-                  Rp 200.000.000
-                </div>
+                <div className="text-2xl font-bold text-emerald-700 mb-5">{price}</div>
                 <div className="border-b-2"></div>
                 <div className="flex flex-row my-5">
                   <img
@@ -105,8 +94,8 @@ export default function DetailPage() {
                     alt=""
                   ></img>
                   <div className="flex flex-col text-left ml-3 my-auto">
-                    <p className="font-semibold">Nama Pengiklan</p>
-                    <p className="text-sm">Role dia</p>
+                    <p className="font-semibold">{house.User.username}</p>
+                    <p className="text-sm">{house.User.role}</p>
                   </div>
                 </div>
                 <div className="text-left mb-12">
