@@ -10,21 +10,9 @@ const upload = multer();
 
 router.post("/users/login", UserController.login);
 
-router.post(
-  "/users/registerAdmin",
-  upload.single("profilePict"),
-  UserController.adminRegister
-);
-router.post(
-  "/users/registerUser",
-  upload.single("profilePict"),
-  UserController.userRegister
-);
-router.post(
-  "/users/registerAgen",
-  upload.single("profilePict"),
-  UserController.agenRegister
-);
+router.post("/users/registerAdmin", upload.single("profilePict"), UserController.adminRegister);
+router.post("/users/registerUser", upload.single("profilePict"), UserController.userRegister);
+router.post("/users/registerAgen", upload.single("profilePict"), UserController.agenRegister);
 
 router.get("/users", UserController.fetchUser);
 

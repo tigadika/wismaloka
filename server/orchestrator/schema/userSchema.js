@@ -83,9 +83,7 @@ const resolvers = {
         // console.log(data, "====");
 
         const user = data.data;
-        const { data: house } = await axios.get(
-          `${urlHouse}/houses?userId=${id}`
-        );
+        const { data: house } = await axios.get(`${urlHouse}/houses?userId=${id}`);
         // console.log(house);
         user.Houses = house;
 
