@@ -5,9 +5,11 @@
   "dependencies": {
     "@apollo/client": "^3.7.0-alpha.4",
     "@headlessui/react": "^1.6.1",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.27.2",
     "graphql": "^15.8.0",
     "mapbox-gl": "^2.8.2",
     "react": "^18.1.0",
