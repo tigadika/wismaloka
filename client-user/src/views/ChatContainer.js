@@ -1,10 +1,11 @@
 import React from "react";
 import UserProfile from "../components/UserProfile";
-import { FiSend } from "react-icons/fi";
 import { BsArrowLeft } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+
 
 export default function ChatContainer() {
+
   return (
     <div className="bg-emerald-50 h-screen p-10">
       <div className="bg-white h-full rounded-lg flex flex-row shadow">
@@ -19,26 +20,10 @@ export default function ChatContainer() {
             </Link>
           </div>
           <div className="flex-1 flex flex-col border-r-2">
-            <UserProfile />
-            <UserProfile />
+            <UserProfile></UserProfile>
           </div>
         </div>
-        <div className="flex-1 flex flex-col justify-between shadow">
-          <div className="bg-gray-100 h-14 flex flex-row py-1 justify-center items-center">
-            <img src={require("../assets/logo1.png")} className="w-36"></img>
-            <p className="font-bold mt-1 ml-2 text-emerald-700">Chat App</p>
-          </div>
-          <div className="flex-1">Chat Container</div>
-          <div className="bg-gray-100 h-14 flex flex-row p-2">
-            <input
-              type="text"
-              className="rounded-lg flex-1 border shadow px-3"
-            ></input>
-            <button className="mx-3 bg-emerald-600 px-3 rounded-full text-white hover:bg-emerald-800">
-              <FiSend />
-            </button>
-          </div>
-        </div>
+      <Outlet></Outlet>
       </div>
     </div>
   );

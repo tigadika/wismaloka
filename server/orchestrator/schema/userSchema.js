@@ -27,6 +27,7 @@ const typeDefs = gql`
     id: ID
     role: String
     name: String
+    profilePict: String
   }
 
   type User {

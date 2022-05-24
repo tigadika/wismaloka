@@ -17,6 +17,7 @@ const authentication = async (req, res, next) => {
         id: getUser.id,
         email: getUser.email,
         role: getUser.role,
+        profilePict: getUser.profilePict
       };
       // console.log(req.user, "<<<<<<<<<<");
       next();

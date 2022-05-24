@@ -19,7 +19,7 @@ export default function Navbar() {
 
   function submitLogin(e) {
     e.preventDefault();
-
+    // console.log('test');
     // let login = {
     //   email, password
     // }
@@ -32,12 +32,14 @@ export default function Navbar() {
         },
       },
       onCompleted(data) {
-        // console.log(data);
+        console.log(data, "<<<<<<<<<<<<<<");
+     
         // localStorage.setItem("AUTH_TOKEN", data.login.token);
         localStorage.access_token = data.login.access_token;
         localStorage.id = data.login.id;
         localStorage.name = data.login.name;
         localStorage.role = data.login.role;
+        localStorage.profilePict = data.login.profilePict;
 
         setIsOpenLogin(false);
       },

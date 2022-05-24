@@ -10,7 +10,7 @@ import AgentAssets from "./views/AgentAssets";
 import AgentAdd from "./views/AgentAdd";
 import ChatContainer from "./views/ChatContainer";
 import AgentLogin from "./views/AgentLogin";
-
+import ChatBox from "./components/ChatBox";
 function App() {
   return (
     <div className="App">
@@ -25,7 +25,10 @@ function App() {
           <Route path="" element={<AgentAssets />}></Route>
           <Route path="add" element={<AgentAdd />}></Route>
         </Route>
-        <Route path="/chat" element={<ChatContainer />}></Route>
+        <Route path="/chat" element={<ChatContainer />}>
+        <Route path=":params" element={<ChatBox />}>
+          </Route>
+        </Route>
         <Route path="/agent/login" element={<AgentLogin />}></Route>
       </Routes>
     </div>
