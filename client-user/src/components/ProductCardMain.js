@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function ProductCardMain({ houses, profilePict }) {
   const navigate = useNavigate();
   function goToDetail() {
-    navigate("/detail/1");
+    navigate(`/detail/${houses.id}`);
   }
 
   const nameAgen = localStorage.name;
