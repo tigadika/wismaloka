@@ -19,10 +19,6 @@ export default function Navbar() {
 
   function submitLogin(e) {
     e.preventDefault();
-    // console.log('test');
-    // let login = {
-    //   email, password
-    // }
 
     loginCustomer({
       variables: {
@@ -32,8 +28,6 @@ export default function Navbar() {
         },
       },
       onCompleted(data) {
-        console.log(data, "<<<<<<<<<<<<<<");
-     
         // localStorage.setItem("AUTH_TOKEN", data.login.token);
         localStorage.access_token = data.login.access_token;
         localStorage.id = data.login.id;

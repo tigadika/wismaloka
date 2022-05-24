@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function ProductCardMain({ houses, profilePict }) {
   const navigate = useNavigate();
   function goToDetail() {
-    navigate("/detail/1");
+    navigate(`/detail/${houses.id}`);
   }
 
   const nameAgen = localStorage.name;
@@ -34,9 +34,7 @@ export default function ProductCardMain({ houses, profilePict }) {
       <div className="flex-1 flex flex-col pt-5 px-5 text-left">
         <div className="font-bold text-xl tracking-wide">{houses.title}</div>
         <div className="text-base tracking-wide mb-2">{houses.location}</div>
-        <div className="font-semibold text-base tracking-wide mb-5">
-          {price1}
-        </div>
+        <div className="font-semibold text-base tracking-wide mb-5">{price1}</div>
         <div className="flex flex-row mb-2">
           <div className="flex flex-row mr-3">
             {houses.Specification.totalBedroom}
@@ -48,31 +46,19 @@ export default function ProductCardMain({ houses, profilePict }) {
             <FaShower className="mt-1 ml-2" />
           </div>
           <div className="mr-3 text-2xl -mt-3">.</div>
-          <div className="flex flex-row mr-3">
-            {houses.Specification.luasBangunan} m2
-          </div>
+          <div className="flex flex-row mr-3">{houses.Specification.luasBangunan} m2</div>
           <div className="mr-3 text-2xl -mt-3">.</div>
-          <div className="flex flex-row mr-3">
-            {houses.Specification.dayaListrik} watt
-          </div>
+          <div className="flex flex-row mr-3">{houses.Specification.dayaListrik} watt</div>
         </div>
         <div className="flex flex-row mb-2">
-          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">
-            Rumah
-          </div>
+          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">Rumah</div>
           <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">
             {houses.Specification.certificate}
           </div>
-          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">
-            {price2}
-          </div>
+          <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">{price2}</div>
         </div>
         <div className="flex flex-row mt-2">
-          <img
-            src={profilePict}
-            className="h-12 w-12 rounded-full p-1 bg-gray-100"
-            alt=""
-          ></img>
+          <img src={profilePict} className="h-12 w-12 rounded-full p-1 bg-gray-100" alt=""></img>
           <div className="text-sm my-auto ml-2">Added By</div>
           <div className="text-sm font-bold ml-1 my-auto">{nameAgen}</div>
           <div className="ml-auto my-auto">
