@@ -83,7 +83,9 @@ const resolvers = {
         // console.log(data, "====");
 
         const user = data.data;
-        const { data: house } = await axios.get(`${urlHouse}/houses?userId=${id}`);
+        const { data: house } = await axios.get(
+          `${urlHouse}/houses?userId=${id}`
+        );
         // console.log(house);
         user.Houses = house;
 
@@ -128,9 +130,7 @@ const resolvers = {
     removeUser: async (_, args) => {
       try {
         const { id } = args;
-        const { data } = await axios.delete(`${urlUser}/users/${id}`, {
-          headers: { access_token: localStorage.access_token },
-        });
+        const { data } = await axios.delete(`${urlUser}/users/${id}`);
 
         return data;
       } catch (error) {
