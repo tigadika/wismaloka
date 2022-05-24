@@ -9,6 +9,7 @@ import axios from "axios";
 
 export default function AgentDashboard() {
   const idUser = localStorage.id;
+  const isPremium = localStorage.isPremium;
 
   const { loading, error, data } = useQuery(GET_USERS_BY_ID, {
     variables: {
@@ -79,15 +80,23 @@ export default function AgentDashboard() {
                 <p className="text-sm">Phone Number</p>
                 <p className="text-sm">{data.getOneUser.phoneNumber}</p>
               </div>
-              <button
-                className="border border-yellow-500 py-2 w-full rounded-lg text-yellow-500 hover:bg-yellow-400 hover:text-white"
-                onClick={submitPremium}
-              >
-                <div className="flex flex-row justify-center">
-                  <FaCrown className="mt-1 mr-2" />
-                  <p className="font-bold">Go Premium</p>
+              {isPremium === "false" && (
+                <button
+                  className="border border-yellow-500 py-2 w-full rounded-lg text-yellow-500 hover:bg-yellow-400 hover:text-white"
+                  onClick={submitPremium}
+                >
+                  <div className="flex flex-row justify-center">
+                    <FaCrown className="mt-1 mr-2" />
+                    <p className="font-bold">Go Premium</p>
+                  </div>
+                </button>
+              )}
+              {isPremium === "true" && (
+                <div className="text-lg text-gray-500 flex flex-row justify-center">
+                  <FaCrown className="mr-2 mt-1" />
+                  <p>Premium Member</p>
                 </div>
-              </button>
+              )}
             </div>
           </div>
         </div>

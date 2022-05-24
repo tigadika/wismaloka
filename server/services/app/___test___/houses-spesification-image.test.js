@@ -457,7 +457,7 @@ describe("acceptance test for get houses feature", () => {
   });
 
   test("should return houses table without access_token and with query paramaters", async () => {
-    const res = await request(app).get("/houses").query({userId: 2});
+    const res = await request(app).get("/houses").query({ userId: 2 });
     expect(res.status).toBe(200);
     expect(res.body[0]).toHaveProperty("title");
     expect(res.body[0]).toHaveProperty("price");
@@ -833,4 +833,23 @@ describe("failed test for get spesification feature", () => {
     const res = await request(app).get("/specs");
     expect(res.status).toBe(404);
   });
+});
+
+describe("acceptance test for get prediction feature", () => {
+  test("should return data json when accessed", async () => {
+    const payloadPredict = {
+      longitude: 106.6826472755602,
+      latitude: -6.293512246060289,
+      totalBedroom: 3,
+      totalBathroom: 2,
+    };
+
+    const response = await request(app)
+      .post("/houses/predict")
+      .field("longitude", payloadPredict.longitude)
+      .field("latitude", payloadPredict.latitude)
+      .field("totalBedroom", payloadPredict.totalBedroom)
+      .field("totalBathroom", payloadPredict.totalBathroom);
+    expect(response.status).toBe(500);
+  }, 20000);
 });

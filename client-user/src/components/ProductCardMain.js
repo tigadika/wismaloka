@@ -27,7 +27,7 @@ export default function ProductCardMain({ houses, profilePict }) {
     >
       <img
         src={houses.Images[0].image}
-        className="object-cover h-72 rounded-l-lg"
+        className="object-cover h-56 rounded-l-lg"
         width={250}
         alt=""
       ></img>
@@ -65,23 +65,6 @@ export default function ProductCardMain({ houses, profilePict }) {
           </div>
           <div className="bg-emerald-200 text-emerald-700 rounded-full px-2 mr-2">
             {price2}
-          </div>
-        </div>
-        <div className="flex flex-row mt-2">
-          <img
-            src={profilePict}
-            className="h-12 w-12 rounded-full p-1 bg-gray-100"
-            alt=""
-          ></img>
-          <div className="text-sm my-auto ml-2">Added By</div>
-          <div className="text-sm font-bold ml-1 my-auto">{nameAgen}</div>
-          <div className="ml-auto my-auto">
-            <button className="border border-emerald-800 px-3 py-1 rounded-lg">
-              <div className="flex flex-row text-emerald-700">
-                <FaCommentDots className="mt-1 mr-2" />
-                <p className="font-bold">Chat Now</p>
-              </div>
-            </button>
           </div>
         </div>
       </div>
