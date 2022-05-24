@@ -54,8 +54,16 @@ class HouseController {
       instalment,
       latitude,
       longitude,
-      Specifications,
+      luasTanah,
+      luasBangunan,
+      certificate,
+      dayaListrik,
+      totalBedroom,
+      totalBathroom,
     } = req.body;
+
+    console.log(req.body, "=====");
+
     try {
       const house = await House.create(
         {
@@ -72,10 +80,23 @@ class HouseController {
       );
 
       let Images = req.uploadImages;
+      console.log(Images, "xxxxxxx");
 
-      Specifications.houseId = house.id;
+      // Specifications.houseId = house.id;
+      const houseId = house.id;
       Images.map((el) => (el.houseId = house.id));
-      await Specification.create(Specifications, { transaction: t });
+      await Specification.create(
+        {
+          luasTanah,
+          luasBangunan,
+          certificate,
+          dayaListrik,
+          totalBedroom,
+          totalBathroom,
+          houseId,
+        },
+        { transaction: t }
+      );
       await Image.bulkCreate(Images, { transaction: t });
       await t.commit();
       res.status(201).json(house);

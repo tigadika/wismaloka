@@ -1,7 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function AgentAdd() {
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [instalment, setInstalment] = useState(0);
+  const [latitude, setLatitude] = useState(-6.34234);
+  const [longitude, setLongitude] = useState(10.244214);
+  const [luasTanah, setLuasTanah] = useState(0);
+  const [luasBangunan, setLuasBangunan] = useState(0);
+  const [certificate, setCertificate] = useState("");
+  const [dayaListrik, setDayaListrik] = useState(0);
+  const [totalBedroom, setTotalBedroom] = useState(0);
+  const [totalBathroom, setTotalBathroom] = useState(0);
+  const [pict, setPict] = useState("");
+
+  function imgHandle(e) {
+    const gambar = e.target.files;
+    setPict(gambar);
+  }
+
+  function submitHandle(e) {
+    e.preventDefault();
+
+    let dataBody = {
+      title,
+      price,
+      description,
+      location,
+      instalment,
+      latitude,
+      longitude,
+      Images: pict,
+      luasTanah,
+      luasBangunan,
+      certificate,
+      dayaListrik,
+      totalBedroom,
+      totalBathroom,
+    };
+
+    // console.log(dataBody.Specifications, "<<<<<");
+    addHouse(dataBody);
+  }
+
+  async function addHouse(dataBody) {
+    try {
+      let file = new FormData();
+      file.append("title", dataBody.title);
+      file.append("price", dataBody.price);
+      file.append("description", dataBody.description);
+      file.append("location", dataBody.location);
+      file.append("instalment", dataBody.instalment);
+      file.append("latitude", dataBody.latitude);
+      file.append("longitude", dataBody.longitude);
+      file.append("luasTanah", dataBody.luasTanah);
+      file.append("luasBangunan", dataBody.luasBangunan);
+      file.append("certificate", dataBody.certificate);
+      file.append("dayaListrik", dataBody.dayaListrik);
+      file.append("totalBedroom", dataBody.totalBedroom);
+      file.append("totalBathroom", dataBody.totalBathroom);
+      // file.append("Specifications", dataBody.Specifications);
+
+      for (let i = 0; i < dataBody.Images.length; i++) {
+        file.append("Images", dataBody.Images[i]);
+        // console.log(file);
+      }
+      await axios({
+        method: "post",
+        url: "http://localhost:3001/houses",
+        data: file,
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <div className="flex-1">
@@ -31,6 +110,11 @@ export default function AgentAdd() {
                     type="text"
                     className="py-2 px-4 rounded-lg shadow"
                     placeholder="e.g. Dijual rumah mewah dekat jalan M. H. Thamrin"
+                    value={title}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setTitle(value);
+                    }}
                   ></input>
                 </div>
               </div>
@@ -42,6 +126,11 @@ export default function AgentAdd() {
                     type="number"
                     className="py-2 px-4 rounded-lg shadow"
                     placeholder="e.g. 200000000"
+                    value={price}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setPrice(value);
+                    }}
                   ></input>
                 </div>
                 <div className="flex flex-col text-left w-1/3 mr-3">
@@ -50,6 +139,11 @@ export default function AgentAdd() {
                     type="text"
                     className="py-2 px-4 rounded-lg shadow"
                     placeholder="e.g. Jalan Thamrin, Jakarta"
+                    value={location}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setLocation(value);
+                    }}
                   ></input>
                 </div>
                 <div className="flex flex-col text-left w-1/3 mr-3">
@@ -58,6 +152,11 @@ export default function AgentAdd() {
                     type="text"
                     className="py-2 px-4 rounded-lg shadow"
                     placeholder="e.g. SHM"
+                    value={certificate}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCertificate(value);
+                    }}
                   ></input>
                 </div>
               </div>
@@ -68,6 +167,11 @@ export default function AgentAdd() {
                   <textarea
                     className="py-2 px-4 h-32 rounded-lg shadow"
                     placeholder="e.g. Dekat dengan Mall AEON"
+                    value={description}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setDescription(value);
+                    }}
                   ></textarea>
                 </div>
               </div>
@@ -80,6 +184,11 @@ export default function AgentAdd() {
                       type="number"
                       className="py-2 px-4 w-4/5 rounded-lg shadow"
                       placeholder="e.g. 100"
+                      value={luasTanah}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setLuasTanah(value);
+                      }}
                     ></input>
                     <p className="ml-3 mt-2">M2</p>
                   </div>
@@ -91,6 +200,11 @@ export default function AgentAdd() {
                       type="number"
                       className="py-2 px-4 w-4/5 rounded-lg shadow"
                       placeholder="e.g. 100"
+                      value={luasBangunan}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setLuasBangunan(value);
+                      }}
                     ></input>
                     <p className="ml-3 mt-2">M2</p>
                   </div>
@@ -102,6 +216,11 @@ export default function AgentAdd() {
                       type="number"
                       className="py-2 px-4 w-3/4 rounded-lg shadow"
                       placeholder="e.g. 100"
+                      value={dayaListrik}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setDayaListrik(value);
+                      }}
                     ></input>
                     <p className="ml-3 mt-2">Watt</p>
                   </div>
@@ -116,6 +235,11 @@ export default function AgentAdd() {
                       type="number"
                       className="py-2 px-4 rounded-lg shadow"
                       placeholder="e.g. 3"
+                      value={totalBedroom}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setTotalBedroom(value);
+                      }}
                     ></input>
                   </div>
                   <div className="flex flex-col text-left w-1/3 mr-3">
@@ -124,6 +248,11 @@ export default function AgentAdd() {
                       type="number"
                       className="py-2 px-4 rounded-lg shadow"
                       placeholder="e.g. 2"
+                      value={totalBathroom}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setTotalBathroom(value);
+                      }}
                     ></input>
                   </div>
                   <div className="flex flex-col text-left w-1/3 mr-3">
@@ -132,6 +261,10 @@ export default function AgentAdd() {
                       type="text"
                       className="py-2 px-4 rounded-lg shadow"
                       placeholder="e.g. Jalan Thamrin, Jakarta"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setInstalment(value);
+                      }}
                     >
                       <option>No</option>
                       <option>Yes</option>
@@ -146,6 +279,8 @@ export default function AgentAdd() {
                   <input
                     type="file"
                     className="py-2 px-4 rounded-lg shadow bg-white"
+                    onChange={imgHandle}
+                    multiple
                   ></input>
                 </div>
               </div>
@@ -158,7 +293,10 @@ export default function AgentAdd() {
                   </div>
                 </div>
               </div>
-              <button className="mt-5 py-2 px-10 bg-emerald-700 text-white rounded-lg shadow font-bold hover:bg-emerald-800">
+              <button
+                className="mt-5 py-2 px-10 bg-emerald-700 text-white rounded-lg shadow font-bold hover:bg-emerald-800"
+                onClick={submitHandle}
+              >
                 Submit
               </button>
             </form>
