@@ -22,10 +22,11 @@ export default function PaymentSucces() {
         },
       });
 
-      //   console.log(respon, "<<<<<");
+      console.log(respon, "<<<<<");
+
       setTimeout(() => {
         navigate("/agent");
-      }, 5000);
+      }, 1000);
     } catch (error) {
       console.log(error);
     }

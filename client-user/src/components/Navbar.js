@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { Dialog } from "@headlessui/react";
 import { LOGIN } from "../queries/houseQuery";
 import { useMutation } from "@apollo/client";
+import { useNavigate } from "react-router";
 
 export default function Navbar() {
+  const Navigate = useNavigate();
   const [isOpenRegister, setIsOpenRegister] = useState(false);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
 
@@ -12,6 +14,9 @@ export default function Navbar() {
   const [password, setPassword] = useState("");
 
   const [loginCustomer, { data, loading, error }] = useMutation(LOGIN);
+
+  const isLogin = localStorage.getItem("access_token");
+  const loginName = localStorage.getItem("name");
 
   // console.log(data, loading, error, "<-----");
   if (loading) return <p>Loading...</p>;
@@ -38,6 +43,11 @@ export default function Navbar() {
         setIsOpenLogin(false);
       },
     });
+  }
+
+  function logOut() {
+    localStorage.clear();
+    Navigate("/");
   }
 
   return (
@@ -213,18 +223,33 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="mt-1">
-          <button
-            onClick={() => setIsOpenRegister(true)}
-            className="mr-3 font-bold text-emerald-700"
-          >
-            Sign Up
-          </button>
-          <button
-            onClick={() => setIsOpenLogin(true)}
-            className="bg-white py-2 px-4 rounded-lg shadow text-emerald-700 font-bold hover:bg-emerald-400 hover:text-white"
-          >
-            Sign In
-          </button>
+          {!isLogin && (
+            <>
+              <button
+                onClick={() => setIsOpenRegister(true)}
+                className="mr-3 font-bold text-emerald-700"
+              >
+                Sign Up
+              </button>
+              <button
+                onClick={() => setIsOpenLogin(true)}
+                className="bg-white py-2 px-4 rounded-lg shadow text-emerald-700 font-bold hover:bg-emerald-400 hover:text-white"
+              >
+                Sign In
+              </button>
+            </>
+          )}
+          {isLogin && (
+            <div className="flex flex-row">
+              <p className="mt-2 mr-4">Hello, {loginName}</p>
+              <button
+                onClick={logOut}
+                className="bg-white py-2 px-4 rounded-lg shadow text-emerald-700 font-bold hover:bg-emerald-400 hover:text-white"
+              >
+                Log Out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

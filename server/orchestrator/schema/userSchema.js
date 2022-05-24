@@ -27,6 +27,7 @@ const typeDefs = gql`
     id: ID
     role: String
     name: String
+    isPremium: Boolean
     profilePict: String
   }
 

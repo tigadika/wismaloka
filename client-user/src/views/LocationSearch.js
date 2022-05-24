@@ -16,15 +16,19 @@ export default function LocationSearch() {
           className="w-full py-3 border-b-2 border-r-2  hover:bg-emerald-50 hover:cursor-pointer"
         >
           <div>
-            <p className="text-emerald-700 text-lg font-bold">Based on budget</p>
+            <p className="text-emerald-700 text-lg font-bold">
+              Based on budget
+            </p>
           </div>
         </Link>
         <div className="w-full py-3 border-b-4 border-b-emerald-700 hover:bg-emerald-50 hover:cursor-pointer">
-          <p className="text-emerald-700 text-lg font-bold">Based on location</p>
+          <p className="text-emerald-700 text-lg font-bold">
+            Based on location
+          </p>
         </div>
       </div>
       <div>
-        <div className="flex flex-wrap my-6 mx-4 h-20 rounded-lg shadow">
+        <div className="flex flex-wrap my-6 mx-4 rounded-lg shadow">
           <MapSearch data={data}></MapSearch>
         </div>
         <form>
