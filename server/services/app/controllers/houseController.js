@@ -201,7 +201,6 @@ class HouseController {
     }
   }
 
-  
   static async getPricePrediction(req, res, next) {
     try {
       const { longitude, latitude, totalBedroom, totalBathroom } = req.body;
@@ -216,7 +215,7 @@ class HouseController {
         nest: true,
       });
 
-      // console.log(houseData[0]);
+      // console.log("test");
 
       const brain = require("brain.js");
       const config = {
@@ -233,6 +232,7 @@ class HouseController {
         return {
           input: [
             e.longitude,
+            e.latitude,
             e.Specification.totalBedroom,
             e.Specification.totalBathroom,
           ],
@@ -246,14 +246,20 @@ class HouseController {
       });
 
       // console.log(dataTrain);
-      let output = await net.run([longitude, totalBedroom, totalBathroom]);
+      let output = await net.run([
+        longitude,
+        latitude,
+        totalBedroom,
+        totalBathroom,
+      ]);
+
       // console.log(output);
-      if (output > 1400000000) {
-        const newNum = output.toString();
-        const arr = newNum.split("");
-        arr.pop();
-        output = arr.join("");
-      }
+      // if (output > 1400000000) {
+      //   const newNum = output.toString();
+      //   const arr = newNum.split("");
+      //   arr.pop();
+      //   output = arr.join("");
+      // }
 
       res.status(200).json({ data: output });
     } catch (err) {

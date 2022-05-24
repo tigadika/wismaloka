@@ -4,17 +4,20 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import Footer from "../components/Footer";
 import { FaCommentDots } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GET_HOUSE_BY_ID } from "../queries/houseQuery";
 import { useQuery } from "@apollo/client";
 export default function DetailPage() {
+  const Navigate = useNavigate();
   const { id } = useParams();
   const { loading, error, data } = useQuery(GET_HOUSE_BY_ID, {
     variables: { getOneHouseId: id },
   });
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
   const house = data.getOneHouse;
+  console.log(house);
   let number = +house.price;
   let instalment = +house.instalment;
   const price = number.toLocaleString("id-ID", {
@@ -25,6 +28,21 @@ export default function DetailPage() {
     style: "currency",
     currency: "IDR",
   });
+  function chatting(id) {
+    const userId = localStorage.getItem("id");
+    if (!userId) {
+      console.log("belum login");
+    } else {
+      var roomName;
+      if (userId < id) {
+        roomName = "chat_" + id + "_" + userId;
+      } else {
+        roomName = "chat_" + userId + "_" + id;
+      }
+
+      Navigate(`/chat/${roomName}`);
+    }
+  }
   return (
     <>
       <div className="mt-20 border-b-2">
@@ -120,7 +138,10 @@ export default function DetailPage() {
                   <p>Contacts agent below</p>
                 </div>
                 <div>
-                  <button className="border border-emerald-800 py-3 w-full rounded-lg text-emerald-700 hover:bg-emerald-700 hover:text-white">
+                  <button
+                    onClick={() => chatting(house.userId)}
+                    className="border border-emerald-800 py-3 w-full rounded-lg text-emerald-700 hover:bg-emerald-700 hover:text-white"
+                  >
                     <div className="flex flex-row justify-center">
                       <FaCommentDots className="mt-1 mr-2" />
                       <p className="font-bold">Chat Now</p>
