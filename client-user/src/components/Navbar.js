@@ -4,14 +4,18 @@ import { Dialog } from "@headlessui/react";
 import { LOGIN } from "../queries/houseQuery";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export default function Navbar() {
   const Navigate = useNavigate();
   const [isOpenRegister, setIsOpenRegister] = useState(false);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
 
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [profilePict, setProfilePict] = useState("");
 
   const [loginCustomer, { data, loading, error }] = useMutation(LOGIN);
 
@@ -43,6 +47,46 @@ export default function Navbar() {
         setIsOpenLogin(false);
       },
     });
+  }
+
+  function photoHandle(e) {
+    const img = e.target.files[0];
+    setProfilePict(img);
+  }
+
+  function submitRegister(e) {
+    e.preventDefault();
+
+    let dataBody = {
+      username,
+      email,
+      password,
+      phoneNumber,
+      profilePict,
+    };
+
+    registerUser(dataBody);
+
+    setIsOpenRegister(false);
+  }
+
+  function registerUser(dataBody) {
+    try {
+      const file = new FormData();
+      file.append("username", dataBody.username);
+      file.append("email", dataBody.email);
+      file.append("password", dataBody.password);
+      file.append("phoneNumber", dataBody.phoneNumber);
+      file.append("profilePict", dataBody.profilePict);
+
+      const respon = axios({
+        method: "POST",
+        url: "http://localhost:3000/users/registerUser",
+        data: file,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function logOut() {
@@ -81,6 +125,11 @@ export default function Navbar() {
                     type="text"
                     className="py-2 px-4 border-2 rounded-lg shadow"
                     placeholder="Insert Username"
+                    value={username}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setUsername(value);
+                    }}
                   ></input>
                 </div>
                 <div className="flex flex-col px-10 mb-3">
@@ -89,21 +138,53 @@ export default function Navbar() {
                     type="email"
                     className="py-2 px-4 border-2 rounded-lg shadow"
                     placeholder="Insert Email"
+                    value={email}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setEmail(value);
+                    }}
                   ></input>
                 </div>
                 <div className="flex flex-col px-10 mb-6">
                   <label className="mb-2 font-bold">Password</label>
                   <input
-                    type="password"
+                    type="text"
                     className="py-2 px-4 border-2 rounded-lg shadow"
                     placeholder="Insert Password"
+                    value={password}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setPassword(value);
+                    }}
+                  ></input>
+                </div>
+                <div className="flex flex-col px-10 mb-6">
+                  <label className="mb-2 font-bold">Phone Number</label>
+                  <input
+                    type="text"
+                    className="py-2 px-4 border-2 rounded-lg shadow"
+                    placeholder="Insert Password"
+                    value={phoneNumber}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setPhoneNumber(value);
+                    }}
+                  ></input>
+                </div>
+                <div className="flex flex-col px-10 mb-6">
+                  <label className="mb-2 font-bold">Upload photo</label>
+                  <input
+                    type="file"
+                    className="py-2 px-4 border-2 rounded-lg shadow"
+                    placeholder="Insert Password"
+                    onChange={photoHandle}
                   ></input>
                 </div>
               </div>
             </form>
             <div className="text-center mx-10 mb-5">
               <button
-                onClick={() => setIsOpenRegister(false)}
+                onClick={submitRegister}
                 className="bg-emerald-700 w-full py-2 rounded-lg shadow font-bold text-white hover:bg-emerald-800"
               >
                 Sign Up
