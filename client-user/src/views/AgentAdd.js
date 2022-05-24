@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import mapboxgl from "mapbox-gl";
+import React, { useEffect, useRef, useState } from "react";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
 
 export default function AgentAdd() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [instalment, setInstalment] = useState(0);
-  const [latitude, setLatitude] = useState(-6.34234);
-  const [longitude, setLongitude] = useState(10.244214);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
   const [luasTanah, setLuasTanah] = useState(0);
   const [luasBangunan, setLuasBangunan] = useState(0);
   const [certificate, setCertificate] = useState("");
@@ -45,6 +52,10 @@ export default function AgentAdd() {
 
     // console.log(dataBody.Specifications, "<<<<<");
     addHouse(dataBody);
+
+    setTimeout(() => {
+      navigate("/agent");
+    }, 5000);
   }
 
   async function addHouse(dataBody) {
@@ -81,6 +92,55 @@ export default function AgentAdd() {
       console.log(error);
     }
   }
+
+  const mapContainerRef = useRef(null);
+  const [lng, setLng] = useState(106.82713133932072);
+  const [lat, setLat] = useState(-6.1752110636303605);
+  const [zoom, setZoom] = useState(9.5);
+
+  useEffect(() => {
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [lng, lat],
+      zoom: zoom,
+    });
+    let geocoder;
+    map.addControl(
+      (geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      }))
+    );
+    geocoder.on("result", function (e) {
+      setLongitude(e.result.center[0]);
+      setLatitude(e.result.center[1]);
+      // console.log(longitude, latitude);
+    });
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    let locateUser;
+    map.addControl(
+      (locateUser = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+        showUserHeading: true,
+        showUserLocation: true,
+      }))
+    );
+    locateUser.on("geolocate", function (e) {
+      setLongitude(e.coords.longitude);
+      setLatitude(e.coords.latitude);
+      // console.log(longitude, latitude, "ini locate user");
+    });
+    map.on("move", () => {
+      setLng(map.getCenter().lng.toFixed(4));
+      setLat(map.getCenter().lat.toFixed(4));
+      setZoom(map.getZoom().toFixed(2));
+    });
+    return () => map.remove();
+  }, []);
   return (
     <>
       <div className="flex-1">
@@ -289,7 +349,14 @@ export default function AgentAdd() {
                 <div className="flex flex-col text-left w-full mx-auto">
                   <label className="mb-2 font-bold mx-auto">Pin Location</label>
                   <div className="bg-white h-48 mx-10 rounded-lg shadow">
-                    Maps Container
+                    <div
+                      className="map-container"
+                      ref={mapContainerRef}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
                   </div>
                 </div>
               </div>

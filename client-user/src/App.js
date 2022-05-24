@@ -9,6 +9,7 @@ import AgentDashboard from "./views/AgentDashboard";
 import AgentAssets from "./views/AgentAssets";
 import AgentAdd from "./views/AgentAdd";
 import AgentLogin from "./views/AgentLogin";
+import PaymentSucces from "./views/PaymentSucces";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="add" element={<AgentAdd />}></Route>
         </Route>
         <Route path="/agent/login" element={<AgentLogin />}></Route>
+        <Route path="/payment-sukses" element={<PaymentSucces />}></Route>
       </Routes>
     </div>
   );
