@@ -20,6 +20,11 @@ const MapSearch = ({ data }) => {
       zoom: zoom,
     });
     data.getHouse.forEach((feature, i) => {
+      const formatIdr1 = +feature.price;
+      const price1 = formatIdr1.toLocaleString("id-Id", {
+        style: "currency",
+        currency: "IDR",
+      });
       let coordinate = [feature.longitude, feature.latitude];
       new mapboxgl.Marker()
         .setLngLat(coordinate)
@@ -27,15 +32,24 @@ const MapSearch = ({ data }) => {
           new mapboxgl.Popup({ offset: 10 }).setHTML(`
         <div className="flex">
           <a href='detail/${feature.id}'> 
-            <img src=${feature.Images[0].image} width="75%", height="75%">
-            <h4>${feature.title}</h4>
-            <h4>${feature.price}</h4>
+          <h4 style="font-weight: bold;">${feature.title}</h4>
+          <h4>${price1}</h4>
+            <img src=${feature.Images[0].image} width="100%">
           </a>
         </div>
         `)
         )
         .addTo(map);
     });
+    let marker = new mapboxgl.Marker();
+    let coordinates;
+    function add_marker(event) {
+      coordinates = event.lngLat;
+      console.log("Lng:", coordinates.lng, "Lat:", coordinates.lat);
+      marker.setLngLat(coordinates).addTo(map);
+    }
+    map.on("click", add_marker);
+
     let geocoder;
     map.addControl(
       (geocoder = new MapboxGeocoder({
@@ -77,7 +91,7 @@ const MapSearch = ({ data }) => {
     <div>
       <div className="sidebarStyle"></div>
       <div
-        className="map-container absolute w-[45%] h-72 mr-auto"
+        className="map-container w-screen h-screen mr-auto"
         ref={mapContainerRef}
       />
     </div>

@@ -80,8 +80,6 @@ const resolvers = {
         const { data } = await axios.get(`${urlHouses}`);
         const houses = data;
 
-        // console.log(houses, "<<<<<<");
-
         return houses;
       } catch (error) {
         console.log(error);

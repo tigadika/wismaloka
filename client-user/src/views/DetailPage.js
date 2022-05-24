@@ -17,8 +17,14 @@ export default function DetailPage() {
   const house = data.getOneHouse;
   let number = +house.price;
   let instalment = +house.instalment;
-  const price = number.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
-  instalment = instalment.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
+  const price = number.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+  instalment = instalment.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
   return (
     <>
       <div className="mt-20 border-b-2">
@@ -32,15 +38,21 @@ export default function DetailPage() {
         <div className="w-full">
           <Carousel showArrows={true} autoPlay={3000} infiniteLoop={true}>
             {house.Images.map((image) => (
-              <div className="h-full">
-                <img src={image.image} alt="image" className="h-full"></img>
+              <div className="h-[650px]">
+                <img
+                  src={image.image}
+                  alt="image"
+                  className="h-full object-cover"
+                ></img>
               </div>
             ))}
           </Carousel>
         </div>
         <div className="flex flex-row mb-10">
           <div className="flex-1 text-left">
-            <p className="text-2xl font-bold tracking-wide mb-5">Property Information</p>
+            <p className="text-2xl font-bold tracking-wide mb-5">
+              Property Information
+            </p>
             <div className="flex flex-row mb-8">
               <div className="flex flex-col mr-20">
                 <p className="text-gray-500 mb-2">Price</p>
@@ -57,7 +69,7 @@ export default function DetailPage() {
                 <p className="mb-2">{house.Specification.totalBathroom}</p>
               </div>
               <div className="flex flex-col mr-20">
-                <p className="text-gray-500 mb-2">Sertifikat</p>
+                <p className="text-gray-500 mb-8">Sertifikat</p>
                 <p className="text-gray-500 mb-2">Daya Listrik</p>
                 <p className="text-gray-500 mb-2">Cicilan</p>
               </div>
@@ -73,7 +85,9 @@ export default function DetailPage() {
               <p>{house.description}</p>
             </div>
             <div className="border-b-2"></div>
-            <p className="text-2xl font-bold tracking-wide my-5">Location Map</p>
+            <p className="text-2xl font-bold tracking-wide my-5">
+              Location Map
+            </p>
             <div className="bg-gray-100 w-5/6 h-96 p-2 mb-10">
               <img
                 alt=""
@@ -85,7 +99,9 @@ export default function DetailPage() {
           <div className="w-1/3 flex">
             <div className="flex flex-col p-4 w-full">
               <div className="sticky top-12 border p-4">
-                <div className="text-2xl font-bold text-emerald-700 mb-5">{price}</div>
+                <div className="text-2xl font-bold text-emerald-700 mb-5">
+                  {price}
+                </div>
                 <div className="border-b-2"></div>
                 <div className="flex flex-row my-5">
                   <img

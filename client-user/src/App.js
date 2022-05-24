@@ -20,8 +20,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />}>
           <Route path="" element={<PriceSearch />}></Route>
-          <Route path="maps" element={<LocationSearch />}></Route>
         </Route>
+        <Route path="/maps" element={<LocationSearch />}></Route>
         <Route path="/all" element={<ListingsPage />}></Route>
         <Route path="/detail/:id" element={<DetailPage />}></Route>
         <Route
@@ -36,8 +36,7 @@ function App() {
           <Route path="add" element={<AgentAdd />}></Route>
         </Route>
         <Route path="/chat" element={<ChatContainer />}>
-        <Route path=":params" element={<ChatBox />}>
-          </Route>
+          <Route path=":params" element={<ChatBox />}></Route>
         </Route>
         <Route path="/agent/login" element={<AgentLogin />}></Route>
         <Route path="/payment-sukses" element={<PaymentSucces />}></Route>
