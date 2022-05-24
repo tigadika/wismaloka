@@ -10,6 +10,7 @@ import AgentAssets from "./views/AgentAssets";
 import AgentAdd from "./views/AgentAdd";
 import ChatContainer from "./views/ChatContainer";
 import AgentLogin from "./views/AgentLogin";
+import PaymentSucces from "./views/PaymentSucces";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         </Route>
         <Route path="/chat" element={<ChatContainer />}></Route>
         <Route path="/agent/login" element={<AgentLogin />}></Route>
+        <Route path="/payment-sukses" element={<PaymentSucces />}></Route>
       </Routes>
     </div>
   );
