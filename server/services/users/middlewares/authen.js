@@ -17,8 +17,9 @@ const authentication = async (req, res, next) => {
         id: getUser.id,
         email: getUser.email,
         role: getUser.role,
+        isPremium: getUser.isPremium,
       };
-      // console.log(req.user, "<<<<<<<<<<");
+      console.log(req.user, "<<<<<<<<<<");
       next();
     }
   } catch (error) {

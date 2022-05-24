@@ -11,6 +11,7 @@ import AgentAdd from "./views/AgentAdd";
 import ChatContainer from "./views/ChatContainer";
 import AgentLogin from "./views/AgentLogin";
 import PaymentSucces from "./views/PaymentSucces";
+import NavGuardAgent from "./components/NavGuardAgent";
 
 function App() {
   return (
@@ -22,7 +23,14 @@ function App() {
         </Route>
         <Route path="/all" element={<ListingsPage />}></Route>
         <Route path="/detail/:id" element={<DetailPage />}></Route>
-        <Route path="/agent" element={<AgentDashboard />}>
+        <Route
+          path="/agent"
+          element={
+            <NavGuardAgent>
+              <AgentDashboard />
+            </NavGuardAgent>
+          }
+        >
           <Route path="" element={<AgentAssets />}></Route>
           <Route path="add" element={<AgentAdd />}></Route>
         </Route>

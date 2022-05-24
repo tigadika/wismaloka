@@ -18,6 +18,7 @@ export default function AgentDashboard() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :( </p>;
+  console.log(data);
 
   function submitPremium(e) {
     e.preventDefault();

@@ -233,6 +233,7 @@ class UserController {
         id: getUser.id,
         role: getUser.role,
         name: getUser.username,
+        isPremium: getUser.isPremium,
       });
     } catch (error) {
       // console.log(error);

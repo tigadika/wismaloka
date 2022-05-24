@@ -26,11 +26,12 @@ export default function AgentLogin() {
         },
       },
       onCompleted(data) {
-        // console.log(data);
+        console.log(data);
         localStorage.access_token = data.login.access_token;
         localStorage.id = data.login.id;
         localStorage.name = data.login.name;
         localStorage.role = data.login.role;
+        localStorage.isPremium = data.login.isPremium;
 
         setTimeout(() => {
           navigate("/agent");
@@ -55,7 +56,7 @@ export default function AgentLogin() {
             Login to start listing your assets in Wismaloka
           </p>
 
-          <form>
+          <form onSubmit={submitLogin}>
             <div className="w-full ">
               <div className="flex flex-col px-10 mb-3">
                 <label className="mb-2 font-bold text-sm text-left">
@@ -88,15 +89,15 @@ export default function AgentLogin() {
                 ></input>
               </div>
             </div>
+            <div className="text-center mx-10 mb-5">
+              <button
+                className="bg-emerald-700 w-full py-2 rounded-lg shadow font-bold text-white hover:bg-emerald-800"
+                onClick={submitLogin}
+              >
+                Sign In
+              </button>
+            </div>
           </form>
-          <div className="text-center mx-10 mb-5">
-            <button
-              className="bg-emerald-700 w-full py-2 rounded-lg shadow font-bold text-white hover:bg-emerald-800"
-              onClick={submitLogin}
-            >
-              Sign In
-            </button>
-          </div>
           <div className="flex flex-row justify-between mx-10 mb-10">
             <p className="text-sm">Don't have account yet?</p>
             <p className="text-sm text-emerald-700 font-bold hover:text-emerald-500 hover:cursor-pointer">

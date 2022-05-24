@@ -9,6 +9,7 @@ export default function ListingsPage() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
   const houses = data.getHouse;
+  console.log(houses);
   return (
     <>
       <div className="mt-20 border-b-2">
@@ -112,9 +113,15 @@ export default function ListingsPage() {
         </form>
       </div>
       <div className="flex flex-row mx-48">
-        <div className="flex-col h-12 w-1/4 bg-orange-300">Sidebar isi apa ya guys</div>
+        <div className="flex-col h-12 w-1/4 bg-orange-300">
+          Sidebar isi apa ya guys
+        </div>
         <div className="flex-1 flex-col p-5">
-          <ProductCardMain houses={houses}></ProductCardMain>
+          {houses.map((house) => {
+            return (
+              <ProductCardMain houses={house} key={house.id}></ProductCardMain>
+            );
+          })}
         </div>
       </div>
       <Footer></Footer>

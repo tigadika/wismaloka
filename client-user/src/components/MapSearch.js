@@ -29,6 +29,7 @@ const MapSearch = ({ data }) => {
           <a href='detail/${feature.id}'> 
             <img src=${feature.Images[0].image} width="75%", height="75%">
             <h4>${feature.title}</h4>
+            <h4>${feature.price}</h4>
           </a>
         </div>
         `)
@@ -76,9 +77,8 @@ const MapSearch = ({ data }) => {
     <div>
       <div className="sidebarStyle"></div>
       <div
-        className="map-container"
+        className="map-container absolute w-[45%] h-72 mr-auto"
         ref={mapContainerRef}
-        style={{ width: "50%", height: "100%", position: "absolute" }}
       />
     </div>
   );
