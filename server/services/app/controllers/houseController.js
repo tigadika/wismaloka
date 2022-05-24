@@ -246,7 +246,7 @@ class HouseController {
       // console.log(dataTrain);
       let output = await net.run([longitude, totalBedroom, totalBathroom]);
       // console.log(output);
-      if (output > 1100000000) {
+      if (output > 1400000000) {
         const newNum = output.toString();
         const arr = newNum.split("");
         arr.pop();

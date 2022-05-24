@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ProductCardMain from "../components/ProductCardMain";
+import ProductCard2 from "../components/ProductCard2";
 import { FaCrown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -40,11 +40,11 @@ export default function AgentAssets() {
         <div className="bg-gray-100 rounded py-5 px-14 mb-5 shadow">
           <p className="text-xl font-bold tracking-wide mb-4">List of Assets</p>
           {data.getOneUser.Houses.map((el) => (
-            <ProductCardMain
+            <ProductCard2
               key={el.id}
               houses={el}
               profilePict={data.getOneUser.profilePict}
-            ></ProductCardMain>
+            ></ProductCard2>
           ))}
           {/* <ProductCardMain></ProductCardMain> */}
           <p className="text-xl font-bold text-emerald-700 tracking-wide mt-14 mb-3">
