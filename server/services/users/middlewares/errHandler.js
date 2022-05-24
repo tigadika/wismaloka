@@ -38,6 +38,11 @@ function errHandle(err, req, res, next) {
         message: "Invalid token",
       });
       break;
+    case "Forbidden":
+      res.status(403).json({
+        message: "Forbidden Access",
+      });
+      break;
 
     default:
       res.status(500).json({
