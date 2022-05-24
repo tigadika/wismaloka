@@ -1,5 +1,6 @@
 import React from "react";
 import { FaChevronCircleRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function LandingFeatured() {
   return (
@@ -19,7 +20,9 @@ export default function LandingFeatured() {
       </p>
       <button className="text-emerald-700 text-xl font-bold p-3 rounded-lg hover:underline">
         <div className="flex flex-row">
+          <Link to={"/all"}>
           <p className="mr-3">Find now</p>
+          </Link>
           <FaChevronCircleRight className="mt-1" />
         </div>
       </button>
