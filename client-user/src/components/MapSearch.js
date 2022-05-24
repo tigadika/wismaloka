@@ -11,7 +11,7 @@ const MapSearch = ({ data }) => {
   const [lng, setLng] = useState(106.82713133932072);
   const [lat, setLat] = useState(-6.1752110636303605);
   const [zoom, setZoom] = useState(9.5);
-
+  //buat munculin map
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
