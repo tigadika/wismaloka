@@ -18,6 +18,7 @@ const authentication = async (req, res, next) => {
         email: getUser.email,
         role: getUser.role,
         isPremium: getUser.isPremium,
+        profilePict: getUser.profilePict
       };
       console.log(req.user, "<<<<<<<<<<");
       next();

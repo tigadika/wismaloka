@@ -234,6 +234,7 @@ class UserController {
         role: getUser.role,
         name: getUser.username,
         isPremium: getUser.isPremium,
+        profilePict:getUser.profilePict
       });
     } catch (error) {
       // console.log(error);

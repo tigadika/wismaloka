@@ -28,6 +28,7 @@ const typeDefs = gql`
     role: String
     name: String
     isPremium: Boolean
+    profilePict: String
   }
 
   type User {

@@ -133,6 +133,7 @@ export const LOGIN = gql`
       role
       name
       isPremium
+      profilePict
     }
   }
 `;

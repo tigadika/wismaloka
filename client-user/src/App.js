@@ -12,6 +12,7 @@ import ChatContainer from "./views/ChatContainer";
 import AgentLogin from "./views/AgentLogin";
 import PaymentSucces from "./views/PaymentSucces";
 import NavGuardAgent from "./components/NavGuardAgent";
+import ChatBox from "./components/ChatBox";
 
 function App() {
   return (
@@ -34,7 +35,10 @@ function App() {
           <Route path="" element={<AgentAssets />}></Route>
           <Route path="add" element={<AgentAdd />}></Route>
         </Route>
-        <Route path="/chat" element={<ChatContainer />}></Route>
+        <Route path="/chat" element={<ChatContainer />}>
+        <Route path=":params" element={<ChatBox />}>
+          </Route>
+        </Route>
         <Route path="/agent/login" element={<AgentLogin />}></Route>
         <Route path="/payment-sukses" element={<PaymentSucces />}></Route>
       </Routes>
