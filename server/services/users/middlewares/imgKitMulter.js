@@ -2,7 +2,7 @@ const axios = require("axios");
 const FormData = require("form-data");
 
 async function imageKit(buffer, originalname) {
-  try {
+
     let image = new FormData();
     // console.log(image, "=========");
     image.append("file", buffer.toString("base64"));
@@ -19,9 +19,7 @@ async function imageKit(buffer, originalname) {
         Authorization: `Basic ${encodedKey}`,
       },
     });
-  } catch (error) {
-    console.log(error);
-  }
+
 }
 
 module.exports = { imageKit };

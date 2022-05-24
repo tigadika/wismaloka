@@ -200,6 +200,8 @@ class HouseController {
       next(err);
     }
   }
+
+  
   static async getPricePrediction(req, res, next) {
     try {
       const { longitude, latitude, totalBedroom, totalBathroom } = req.body;

@@ -234,7 +234,7 @@ class UserController {
         role: getUser.role,
         name: getUser.username,
         isPremium: getUser.isPremium,
-        profilePict:getUser.profilePict
+        profilePict: getUser.profilePict,
       });
     } catch (error) {
       // console.log(error);
@@ -287,7 +287,7 @@ class UserController {
       const { id } = req.params;
 
       const getUser = await User.findByPk(id);
-      if (getUser <= 0) {
+      if (!getUser) {
         throw { name: "Data not found" };
       }
 
@@ -304,46 +304,32 @@ class UserController {
 
   //midtrans
   static async payment(req, res, next) {
-    try {
-      let parameter = {
-        transaction_details: {
-          order_id: Math.floor(Math.random() * 100000),
-          gross_amount: 200000,
-        },
-        credit_card: {
-          secure: true,
-        },
-      };
+    let parameter = {
+      transaction_details: {
+        order_id: Math.floor(Math.random() * 100000),
+        gross_amount: 200000,
+      },
+      credit_card: {
+        secure: true,
+      },
+    };
 
-      const trx = await snap.createTransaction(parameter);
-      // console.log(trx);
-      res.status(201).json({
-        token: trx.token,
-        redirect_url: trx.redirect_url,
-      });
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
+    const trx = await snap.createTransaction(parameter);
+    // console.log(trx);
+    res.status(201).json({
+      token: trx.token,
+      redirect_url: trx.redirect_url,
+    });
   }
 
   static async premiumUser(req, res, next) {
-    try {
-      const { id } = req.user;
-      // console.log(id);
-      const getUser = await User.findOne({ where: { id } });
+    const { id } = req.user;
 
-      if (!getUser) {
-        throw { name: "Data not found" };
-      }
-      await User.update({ isPremium: true }, { where: { id } });
+    await User.update({ isPremium: true }, { where: { id } });
 
-      res.status(201).json({
-        message: "congrats, your account is premium",
-      });
-    } catch (error) {
-      next(error);
-    }
+    res.status(200).json({
+      message: "congrats, your account is premium",
+    });
   }
 }
 
