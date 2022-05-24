@@ -1,7 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-// import geoJson from "./houses.json";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
@@ -19,10 +19,9 @@ const MapSearch = ({ data }) => {
       center: [lng, lat],
       zoom: zoom,
     });
-    console.log(data);
-    data.getHouse.forEach((feature) => {
-      let coordinate = [+feature.longitude, +feature.latitude];
-      var popup = new mapboxgl.Marker()
+    data.getHouse.forEach((feature, i) => {
+      let coordinate = [feature.longitude, feature.latitude];
+      new mapboxgl.Marker()
         .setLngLat(coordinate)
         .setPopup(
           new mapboxgl.Popup({ offset: 10 }).setHTML(`
@@ -36,25 +35,42 @@ const MapSearch = ({ data }) => {
         )
         .addTo(map);
     });
-
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    let geocoder;
     map.addControl(
-      new mapboxgl.GeolocateControl({
+      (geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      }))
+    );
+    geocoder.on("result", function (e) {
+      let longitude = e.result.center[0];
+      let latitude = e.result.center[1];
+      console.log(longitude, latitude);
+    });
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+    let locateUser;
+    map.addControl(
+      (locateUser = new mapboxgl.GeolocateControl({
         positionOptions: {
           enableHighAccuracy: true,
         },
         trackUserLocation: true,
         showUserHeading: true,
-      })
+        showUserLocation: true,
+      }))
     );
-
+    locateUser.on("geolocate", function (e) {
+      let longitude = e.coords.longitude;
+      let latitude = e.coords.latitude;
+      console.log(longitude, latitude, "ini locate user");
+    });
     map.on("move", () => {
       setLng(map.getCenter().lng.toFixed(4));
       setLat(map.getCenter().lat.toFixed(4));
       setZoom(map.getZoom().toFixed(2));
     });
     return () => map.remove();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
