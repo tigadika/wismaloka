@@ -6,7 +6,7 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 mapboxgl.accessToken =
   "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
 
-const MapSearch = ({ data }) => {
+const MapSearch = ({ data, populateFunction }) => {
   const mapContainerRef = useRef(null);
   const [lng, setLng] = useState(106.82713133932072);
   const [lat, setLat] = useState(-6.1752110636303605);
@@ -45,7 +45,8 @@ const MapSearch = ({ data }) => {
     let coordinates;
     function add_marker(event) {
       coordinates = event.lngLat;
-      console.log("Lng:", coordinates.lng, "Lat:", coordinates.lat);
+      // console.log("Lng:", coordinates.lng, "Lat:", coordinates.lat);
+      populateFunction(coordinates);
       marker.setLngLat(coordinates).addTo(map);
     }
     map.on("click", add_marker);
