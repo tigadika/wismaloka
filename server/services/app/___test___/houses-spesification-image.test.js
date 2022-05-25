@@ -17,6 +17,7 @@ describe("failed test for get houses feature", () => {
   });
 });
 
+//! penanda
 describe("acceptance test for create house feature", () => {
   test("should return res status of 201 and new house data with access_token", async () => {
     const payloadLogin = {
@@ -72,43 +73,43 @@ describe("acceptance test for create house feature", () => {
 });
 
 describe("failed test for create house feature", () => {
-  test("should return res status of 401 when creating house without access_token", async () => {
-    const payload = {
-      title: "Jual Rumah1",
-      price: "10000000001",
-      description: "dijual rumah1",
-      location: "jakarta",
-      instalment: "10000",
-      coordinate: ["124145", "12414"],
-      userId: 1,
-      houseId: 1,
-      luasTanah: 100,
-      luasBangunan: 80,
-      certificate: "SHM",
-      dayaListrik: 300,
-      totalBedroom: 3,
-      totalBathroom: 2,
-    };
-    const res = await request(app)
-      .post("/houses")
-      .field("title", payload.title)
-      .field("price", payload.price)
-      .field("description", payload.description)
-      .field("location", payload.location)
-      .field("instalment", payload.instalment)
-      .field("coordinate", payload.coordinate)
-      .field("userId", payload.userId)
-      .field("Specifications[luasTanah]", payload.luasTanah)
-      .field("Specifications[luasBangunan]", payload.luasBangunan)
-      .field("Specifications[certificate]", payload.certificate)
-      .field("Specifications[dayaListrik]", payload.dayaListrik)
-      .field("Specifications[totalBedroom]", payload.totalBedroom)
-      .field("Specifications[totalBathroom]", payload.totalBathroom)
-      .attach("Images", "./Capture.PNG");
+  // test("should return res status of 401 when creating house without access_token", async () => {
+  //   const payload = {
+  //     title: "Jual Rumah1",
+  //     price: "10000000001",
+  //     description: "dijual rumah1",
+  //     location: "jakarta",
+  //     instalment: "10000",
+  //     coordinate: ["124145", "12414"],
+  //     userId: 1,
+  //     houseId: 1,
+  //     luasTanah: 100,
+  //     luasBangunan: 80,
+  //     certificate: "SHM",
+  //     dayaListrik: 300,
+  //     totalBedroom: 3,
+  //     totalBathroom: 2,
+  //   };
+  //   const res = await request(app)
+  //     .post("/houses")
+  //     .field("title", payload.title)
+  //     .field("price", payload.price)
+  //     .field("description", payload.description)
+  //     .field("location", payload.location)
+  //     .field("instalment", payload.instalment)
+  //     .field("coordinate", payload.coordinate)
+  //     .field("userId", payload.userId)
+  //     .field("Specifications[luasTanah]", payload.luasTanah)
+  //     .field("Specifications[luasBangunan]", payload.luasBangunan)
+  //     .field("Specifications[certificate]", payload.certificate)
+  //     .field("Specifications[dayaListrik]", payload.dayaListrik)
+  //     .field("Specifications[totalBedroom]", payload.totalBedroom)
+  //     .field("Specifications[totalBathroom]", payload.totalBathroom)
+  //     .attach("Images", "./Capture.PNG");
 
-    expect(res.status).toBe(401);
-    expect(res.body).toHaveProperty("message", "JsonWebTokenError");
-  });
+  //   expect(res.status).toBe(401);
+  //   expect(res.body).toHaveProperty("message", "JsonWebTokenError");
+  // });
 
   test("should return error message of Title is required when not provided with title", async () => {
     const payload = {
@@ -468,6 +469,78 @@ describe("acceptance test for get houses feature", () => {
     expect(res.body[0]).toHaveProperty("longitude");
     expect(res.body[0]).toHaveProperty("userId");
   });
+
+  //! Penanda Bang
+  test("should return houses table without access_token and with query search", async () => {
+    const res = await request(app)
+      .get("/houses")
+      .query({ search: "Jual Rumah1" });
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("price");
+    expect(res.body[0]).toHaveProperty("description");
+    expect(res.body[0]).toHaveProperty("location");
+    expect(res.body[0]).toHaveProperty("instalment");
+    expect(res.body[0]).toHaveProperty("latitude");
+    expect(res.body[0]).toHaveProperty("longitude");
+    expect(res.body[0]).toHaveProperty("userId");
+  });
+
+  test("should return houses table without access_token and with query totalBedroom", async () => {
+    const res = await request(app).get("/houses").query({ totalBedroom: 3 });
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("price");
+    expect(res.body[0]).toHaveProperty("description");
+    expect(res.body[0]).toHaveProperty("location");
+    expect(res.body[0]).toHaveProperty("instalment");
+    expect(res.body[0]).toHaveProperty("latitude");
+    expect(res.body[0]).toHaveProperty("longitude");
+    expect(res.body[0]).toHaveProperty("userId");
+  });
+
+  test("should return houses table without access_token and with query totalBathroom", async () => {
+    const res = await request(app).get("/houses").query({ totalBathroom: 2 });
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("price");
+    expect(res.body[0]).toHaveProperty("description");
+    expect(res.body[0]).toHaveProperty("location");
+    expect(res.body[0]).toHaveProperty("instalment");
+    expect(res.body[0]).toHaveProperty("latitude");
+    expect(res.body[0]).toHaveProperty("longitude");
+    expect(res.body[0]).toHaveProperty("userId");
+  });
+
+  test("should return houses table without access_token and with query price", async () => {
+    const res = await request(app)
+      .get("/houses")
+      .query({ price: "10000000001" });
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("price");
+    expect(res.body[0]).toHaveProperty("description");
+    expect(res.body[0]).toHaveProperty("location");
+    expect(res.body[0]).toHaveProperty("instalment");
+    expect(res.body[0]).toHaveProperty("latitude");
+    expect(res.body[0]).toHaveProperty("longitude");
+    expect(res.body[0]).toHaveProperty("userId");
+  });
+
+  test("should return houses table without access_token and with query location", async () => {
+    const res = await request(app)
+      .get("/houses")
+      .query({ location: "jakarta" });
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toHaveProperty("title");
+    expect(res.body[0]).toHaveProperty("price");
+    expect(res.body[0]).toHaveProperty("description");
+    expect(res.body[0]).toHaveProperty("location");
+    expect(res.body[0]).toHaveProperty("instalment");
+    expect(res.body[0]).toHaveProperty("latitude");
+    expect(res.body[0]).toHaveProperty("longitude");
+    expect(res.body[0]).toHaveProperty("userId");
+  });
 });
 
 describe("acceptance test for get houses by id feature", () => {
@@ -540,43 +613,43 @@ describe("acceptance test for update house feature", () => {
 });
 
 describe("failed test for update house feature", () => {
-  test("should return res status of 401 when accessed without access_token", async () => {
-    const payload = {
-      title: "Jual Rumah1",
-      price: "10000000001",
-      description: "dijual rumah1",
-      location: "jakarta",
-      instalment: "10000",
-      coordinate: ["124145", "12414"],
-      userId: 1,
-      houseId: 1,
-      luasTanah: 100,
-      luasBangunan: 80,
-      certificate: "SHM",
-      dayaListrik: 300,
-      totalBedroom: 3,
-      totalBathroom: 2,
-    };
-    const res = await request(app)
-      .put("/houses/1")
-      .field("title", payload.title)
-      .field("price", payload.price)
-      .field("description", payload.description)
-      .field("location", payload.location)
-      .field("instalment", payload.instalment)
-      .field("coordinate", payload.coordinate)
-      .field("userId", payload.userId)
-      .field("Specifications[luasTanah]", payload.luasTanah)
-      .field("Specifications[luasBangunan]", payload.luasBangunan)
-      .field("Specifications[certificate]", payload.certificate)
-      .field("Specifications[dayaListrik]", payload.dayaListrik)
-      .field("Specifications[totalBedroom]", payload.totalBedroom)
-      .field("Specifications[totalBathroom]", payload.totalBathroom)
-      .attach("Images", "./Capture.PNG");
+  // test("should return res status of 401 when accessed without access_token", async () => {
+  //   const payload = {
+  //     title: "Jual Rumah1",
+  //     price: "10000000001",
+  //     description: "dijual rumah1",
+  //     location: "jakarta",
+  //     instalment: "10000",
+  //     coordinate: ["124145", "12414"],
+  //     userId: 1,
+  //     houseId: 1,
+  //     luasTanah: 100,
+  //     luasBangunan: 80,
+  //     certificate: "SHM",
+  //     dayaListrik: 300,
+  //     totalBedroom: 3,
+  //     totalBathroom: 2,
+  //   };
+  //   const res = await request(app)
+  //     .put("/houses/1")
+  //     .field("title", payload.title)
+  //     .field("price", payload.price)
+  //     .field("description", payload.description)
+  //     .field("location", payload.location)
+  //     .field("instalment", payload.instalment)
+  //     .field("coordinate", payload.coordinate)
+  //     .field("userId", payload.userId)
+  //     .field("Specifications[luasTanah]", payload.luasTanah)
+  //     .field("Specifications[luasBangunan]", payload.luasBangunan)
+  //     .field("Specifications[certificate]", payload.certificate)
+  //     .field("Specifications[dayaListrik]", payload.dayaListrik)
+  //     .field("Specifications[totalBedroom]", payload.totalBedroom)
+  //     .field("Specifications[totalBathroom]", payload.totalBathroom)
+  //     .attach("Images", "./Capture.PNG");
 
-    expect(res.status).toBe(401);
-    expect(res.body).toHaveProperty("message", "JsonWebTokenError");
-  });
+  //   expect(res.status).toBe(401);
+  //   expect(res.body).toHaveProperty("message", "JsonWebTokenError");
+  // });
 
   test("should return res status of 404 when data with defined id is not found", async () => {
     const payload = {

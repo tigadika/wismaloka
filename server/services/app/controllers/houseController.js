@@ -1,17 +1,58 @@
 const { House, Specification, sequelize, Image } = require("../models/index");
+const { Op } = require("sequelize");
+
 class HouseController {
   static async getAllHouses(req, res, next) {
     try {
-      const { userId } = req.query;
-      let options;
+      const { userId, search, price, totalBedroom, totalBathroom, location } =
+        req.query;
+      let options = {
+        include: [
+          {
+            model: Specification,
+            where: {},
+          },
+          {
+            model: Image,
+          },
+        ],
+        order: [["updatedAt"]],
+        where: {},
+      };
       if (userId) {
-        options = {
-          where: { userId },
-          include: [Specification, Image],
+        options.where = {
+          ...options.where,
+          userId: +userId,
         };
-      } else {
-        options = {
-          include: [Specification, Image],
+      }
+      if (search) {
+        options.where = {
+          ...options.where,
+          title: { [Op.iLike]: `%${search}%` },
+        };
+      }
+      if (totalBedroom) {
+        options.include[0].where = {
+          ...options.include[0].where,
+          totalBedroom: { [Op.eq]: totalBedroom },
+        };
+      }
+      if (totalBathroom) {
+        options.include[0].where = {
+          ...options.include[0].where,
+          totalBathroom: { [Op.eq]: totalBathroom },
+        };
+      }
+      if (price) {
+        options.where = {
+          ...options.where,
+          price: { [Op.iLike]: `${price}%` },
+        };
+      }
+      if (location) {
+        options.where = {
+          ...options.where,
+          location: { [Op.iLike]: `%${location}%` },
         };
       }
       const houses = await House.findAll(options);
