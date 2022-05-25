@@ -82,13 +82,14 @@ const resolvers = {
       try {
         const { id } = args;
         const { data } = await axios.get(`${urlUser}/users/${id}`);
-        // console.log(data, "====");
+        console.log(data, "====");
 
         const user = data.data;
         const { data: house } = await axios.get(
           `${urlHouse}/houses?userId=${id}`
         );
-        // console.log(house);
+        //! BAKAL ERROR JIKA TESTING
+
         user.Houses = house;
 
         return user;

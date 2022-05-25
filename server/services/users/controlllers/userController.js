@@ -10,10 +10,8 @@ class UserController {
     try {
       const { username, email, password, phoneNumber } = req.body;
 
-      // console.log(req.body, "======");
       if (req.file) {
         const { buffer, originalname } = req.file;
-        // console.log(req.file, "<<<<<<");
         const result = await imageKit(buffer, originalname);
         const profilePict = result.data.url;
         const newUser = await User.create({
@@ -63,10 +61,7 @@ class UserController {
           },
         });
       }
-
-      // console.log(result.data, "++++++");
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -129,7 +124,6 @@ class UserController {
         });
       }
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -141,7 +135,6 @@ class UserController {
 
       if (req.file) {
         const { buffer, originalname } = req.file;
-        // console.log(req.file, "<<<<<<");
         const result = await imageKit(buffer, originalname);
         const profilePict = result.data.url;
 
@@ -237,7 +230,6 @@ class UserController {
         profilePict: getUser.profilePict,
       });
     } catch (error) {
-      // console.log(error);
       next(error);
     }
   }
@@ -277,7 +269,6 @@ class UserController {
         data: user,
       });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -315,7 +306,6 @@ class UserController {
     };
 
     const trx = await snap.createTransaction(parameter);
-    // console.log(trx);
     res.status(201).json({
       token: trx.token,
       redirect_url: trx.redirect_url,

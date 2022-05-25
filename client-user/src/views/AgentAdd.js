@@ -4,6 +4,8 @@ import mapboxgl from "mapbox-gl";
 import React, { useEffect, useRef, useState } from "react";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import { useQuery } from "@apollo/client";
+import { GET_USERS_BY_ID } from "../queries/houseQuery";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA";
@@ -24,6 +26,15 @@ export default function AgentAdd() {
   const [totalBedroom, setTotalBedroom] = useState(0);
   const [totalBathroom, setTotalBathroom] = useState(0);
   const [pict, setPict] = useState("");
+
+  const idUser = localStorage.id;
+  const { loading, error, data } = useQuery(GET_USERS_BY_ID, {
+    variables: {
+      getOneUserId: idUser,
+    },
+  });
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :( </p>;
 
   function imgHandle(e) {
     const gambar = e.target.files;

@@ -3,13 +3,10 @@ const { User } = require("../models/index");
 
 const authentication = async (req, res, next) => {
   try {
-    //   console.log(req.headers);
     const { access_token } = req.headers;
     const payload = readToken(access_token);
-    // console.log(payload, "===========");
     const getUser = await User.findByPk(payload.id);
 
-    // console.log(getUser, "<<<<<<<<<<<<<<<<");
     if (!getUser) {
       throw { name: "AuthFail", statusCode: 401 };
     } else {
@@ -18,13 +15,11 @@ const authentication = async (req, res, next) => {
         email: getUser.email,
         role: getUser.role,
         isPremium: getUser.isPremium,
-        profilePict: getUser.profilePict
+        profilePict: getUser.profilePict,
       };
-      console.log(req.user, "<<<<<<<<<<");
       next();
     }
   } catch (error) {
-    // console.log(error);
     next(error);
   }
 };

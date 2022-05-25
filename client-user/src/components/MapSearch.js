@@ -45,7 +45,6 @@ const MapSearch = ({ data, populateFunction }) => {
     let coordinates;
     function add_marker(event) {
       coordinates = event.lngLat;
-      // console.log("Lng:", coordinates.lng, "Lat:", coordinates.lat);
       populateFunction(coordinates);
       marker.setLngLat(coordinates).addTo(map);
     }
@@ -61,7 +60,6 @@ const MapSearch = ({ data, populateFunction }) => {
     geocoder.on("result", function (e) {
       let longitude = e.result.center[0];
       let latitude = e.result.center[1];
-      console.log(longitude, latitude);
     });
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
     let locateUser;
@@ -78,7 +76,6 @@ const MapSearch = ({ data, populateFunction }) => {
     locateUser.on("geolocate", function (e) {
       let longitude = e.coords.longitude;
       let latitude = e.coords.latitude;
-      console.log(longitude, latitude, "ini locate user");
     });
     map.on("move", () => {
       setLng(map.getCenter().lng.toFixed(4));
