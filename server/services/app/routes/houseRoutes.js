@@ -7,7 +7,6 @@ const authentication = require("../../users/middlewares/authen");
 const authorization = require("../middlewares/authorize");
 
 houseRoutes.get("/", HouseController.getAllHouses);
-houseRoutes.post("/predict", HouseController.getPricePrediction);
 houseRoutes.post(
   "/",
   authentication,
