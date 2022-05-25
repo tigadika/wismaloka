@@ -5,19 +5,16 @@ const authorization = async (req, res, next) => {
     const { id } = req.params;
     const getUser = await User.findByPk(id);
 
-
-      if (req.user.role === "Admin") {
+    if (req.user.role === "Admin") {
+      next();
+    } else {
+      if (req.user.id === getUser.id) {
         next();
       } else {
-        if (req.user.id === getUser.id) {
-          next();
-        } else {
-          throw { name: "Forbidden", statusCode: 403 };
-        }
+        throw { name: "Forbidden", statusCode: 403 };
       }
-    
+    }
   } catch (err) {
-    // console.log(error);
     next(err);
   }
 };

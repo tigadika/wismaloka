@@ -8,7 +8,6 @@ export default function ChatBox() {
   const [messages, setMessages] = useState([]);
   const params = useParams();
 
-
   useEffect(() => {
     db.collection(params.params)
       .orderBy("createdAt")
@@ -17,8 +16,6 @@ export default function ChatBox() {
         setMessages(snapshot.docs.map((doc) => doc.data()));
       });
   }, [params]);
-
-
 
   async function sentMessages(e) {
     e.preventDefault();
@@ -34,7 +31,6 @@ export default function ChatBox() {
       photoURL: profilePict,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-
     setSendMessages("");
   }
   return (
@@ -46,15 +42,17 @@ export default function ChatBox() {
         </div>
         <div className="flex-1 overflow-auto p-2">
           <div className="msgs">
-            {messages.map(({ name, text, photoURL, createdAt, }) => (
+            {messages.map(({ name, text, photoURL, createdAt }) => (
               <div className="flex flex-row justify-start items-center mb-3 border-b pb-2">
-                <img className="rounded-full w-14 h-14 object-cover mr-3" src={photoURL} alt="" />
+                <img
+                  className="rounded-full w-14 h-14 object-cover mr-3"
+                  src={photoURL}
+                  alt=""
+                />
                 <div className="flex flex-col text-left">
-                <p className="font-bold">{name}</p>
-                <p className="text-left">{text} </p>
+                  <p className="font-bold">{name}</p>
+                  <p className="text-left">{text} </p>
                 </div>
-              
-              
               </div>
             ))}
           </div>

@@ -1,25 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCardMain from "../components/ProductCardMain";
 import { FaCrown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_USERS_BY_ID } from "../queries/houseQuery";
+import axios from "axios";
 
 export default function AgentAssets() {
   const idUser = localStorage.id;
   const isPremium = localStorage.isPremium;
-  console.log(isPremium);
+  // console.log(isPremium);
 
-  const { loading, error, data } = useQuery(GET_USERS_BY_ID, {
-    variables: {
-      getOneUserId: idUser,
-    },
-  });
+  // const { loading, error, data } = useQuery(GET_USERS_BY_ID, {
+  //   variables: {
+  //     getOneUserId: idUser,
+  //   },
+  // });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :( </p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error :( </p>;
 
-  const limit = data.getOneUser.Houses.slice(0, 3);
+  const [dataHouse, setIsDataHouse] = useState([]);
+  console.log(dataHouse, "tteteytey");
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/houses?userId=${idUser}`)
+      .then((response) => response.json())
+      .then((data) => setIsDataHouse(data));
+  }, []);
+
+  const limit = dataHouse.slice(0, 3);
 
   return (
     <>
@@ -42,19 +52,11 @@ export default function AgentAssets() {
           <p className="text-xl font-bold tracking-wide mb-4">List of Assets</p>
           {isPremium === "false" &&
             limit.map((el) => (
-              <ProductCardMain
-                key={el.id}
-                houses={el}
-                profilePict={data.getOneUser.profilePict}
-              ></ProductCardMain>
+              <ProductCardMain key={el.id} houses={el}></ProductCardMain>
             ))}
           {isPremium === "true" &&
-            data.getOneUser.Houses.map((el) => (
-              <ProductCardMain
-                key={el.id}
-                houses={el}
-                profilePict={data.getOneUser.profilePict}
-              ></ProductCardMain>
+            dataHouse.map((el) => (
+              <ProductCardMain key={el.id} houses={el}></ProductCardMain>
             ))}
           {/* <ProductCardMain></ProductCardMain> */}
           {isPremium === "false" && (

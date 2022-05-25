@@ -15,12 +15,13 @@ class HouseController {
         };
       }
       const houses = await House.findAll(options);
-      if (houses.length === 0) {
-        throw {
-          name: "Not Found",
-          message: "House not found",
-        };
-      }
+      // TODO TESTING
+      // if (houses.length === 0) {
+      //   throw {
+      //     name: "Not Found",
+      //     message: "House not found",
+      //   };
+      // }
       res.status(200).json(houses);
     } catch (err) {
       next(err);
@@ -62,8 +63,6 @@ class HouseController {
       totalBathroom,
     } = req.body;
 
-    console.log(req.body, "=====");
-
     try {
       const house = await House.create(
         {
@@ -80,7 +79,6 @@ class HouseController {
       );
 
       let Images = req.uploadImages;
-      console.log(Images, "xxxxxxx");
 
       // Specifications.houseId = house.id;
       const houseId = house.id;
@@ -101,7 +99,6 @@ class HouseController {
       await t.commit();
       res.status(201).json(house);
     } catch (err) {
-      console.log(err);
       await t.rollback();
       next(err);
     }

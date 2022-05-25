@@ -7,12 +7,18 @@ import { BiArrowBack } from "react-icons/bi";
 import axios from "axios";
 
 export default function LocationSearch() {
-  const [isLoadingPred, setIsLoadingPred] = useState("false");
+  const [isLoadingPred, setIsLoadingPred] = useState(false);
   const [prediction, setPrediction] = useState("");
-  const [longitude, setLongitude] = useState(0);
-  const [latitude, setLatitude] = useState(0);
-  const [totalBedroom, setTotalBedroom] = useState(0);
-  const [totalBathroom, setTotalBathroom] = useState(0);
+  const [longitude, setLongitude] = useState();
+  const [latitude, setLatitude] = useState();
+  const [totalBedroom, setTotalBedroom] = useState();
+  const [totalBathroom, setTotalBathroom] = useState();
+
+  const price = +prediction;
+  const priceFormat = price.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
 
   const doPopulate = (coordinates) => {
     console.log("Lng:", coordinates.lng, "Lat:", coordinates.lat);
@@ -55,13 +61,14 @@ export default function LocationSearch() {
 
   async function predict(dataBody) {
     try {
-      setIsLoadingPred("true");
+      setIsLoadingPred(true);
       const { data } = await axios({
         method: "post",
-        url: "http://localhost:3001/houses/predict",
+        url: "http://localhost:3040/predict",
         data: dataBody,
       });
-      setIsLoadingPred("false");
+      setIsLoadingPred(false);
+      setPrediction(data.data);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -77,15 +84,24 @@ export default function LocationSearch() {
       <MapSearch data={data} populateFunction={doPopulate}></MapSearch>
       <Link
         to={"/"}
-        className="w-16 absolute top-5 left-5 bg-white text-emerald-700 border border-emerald-700 p-3 rounded-lg hover:bg-emerald-800 hover:text-white"
+        className="w-16 absolute top-5 left-5 bg-white text-emerald-700 shadow-lg p-3 rounded-lg hover:bg-emerald-800 hover:text-white"
       >
         <BiArrowBack className="text-2xl mx-auto" />
       </Link>
       <div className="p-4 absolute bottom-1 w-full">
-        <div className="bg-white w-1/2 mx-auto p-2 flex flex-col rounded-lg">
-          <div className="mb-3 text-lg font-bold">
-            Market Price Estimation: {isLoadingPred}
-          </div>
+        <div className="bg-white shadow-lg w-1/2 mx-auto p-2 flex flex-col rounded-lg">
+          {(prediction || isLoadingPred) && (
+            <div className="mb-3 text-lg font-bold flex flex-row justify-center">
+              <p>Market Price Estimation:</p>
+              {isLoadingPred && (
+                <img
+                  src={require("../assets/loading.gif")}
+                  className="w-8 ml-3"
+                ></img>
+              )}
+              {!isLoadingPred && <p className="ml-3">{priceFormat}</p>}
+            </div>
+          )}
           <form onSubmit={submitPredict}>
             <div className="flex flex-row">
               <input

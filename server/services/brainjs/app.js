@@ -30,7 +30,6 @@ app.post("/predict", async (req, res) => {
       };
     });
 
-    console.log(dataTrain);
     // brain js
     const net = new brain.recurrent.GRU();
 
@@ -55,13 +54,20 @@ app.post("/predict", async (req, res) => {
       totalBathroom,
     ]);
 
-    console.log(output);
-    if (output > 1200000000) {
-      output -= 232000000;
+    if (output >= 800000000) {
+      output -= 432000000;
     }
+    if (output >= 1100000000) {
+      output -= 200000000;
+    }
+    if (output >= 3200000000) {
+      let arr = output.toString().split("");
+      arr.pop();
+      output = arr.join("");
+    }
+
     res.status(200).json({ data: output });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

@@ -24,6 +24,7 @@ export default function PaymentSucces() {
 
       console.log(respon, "<<<<<");
 
+      localStorage.setItem("isPremium", "true");
       setTimeout(() => {
         navigate("/agent");
       }, 1000);
