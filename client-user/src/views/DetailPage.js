@@ -14,7 +14,16 @@ export default function DetailPage() {
     variables: { getOneHouseId: id },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="w-48 p-5 mx-auto mt-20">
+        <img
+          src={require("../assets/loading.gif")}
+          alt=""
+          className="mx-auto w-24"
+        ></img>
+      </div>
+    );
   if (error) return <p>Error :(</p>;
   const house = data.getOneHouse;
   console.log(house);

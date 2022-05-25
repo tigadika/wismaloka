@@ -1,7 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function PriceSearch() {
+  const [totalBedroom, setTotalBedroom] = useState("");
+  const [totalBathroom, setTotalBathroom] = useState("");
+  const [price, setPrice] = useState("");
+  const Navigate = useNavigate();
+
+  function searchListing(e) {
+    e.preventDefault();
+    const options = {
+      state: {},
+    };
+    if (totalBathroom) {
+      options.state = {
+        ...options.state,
+        totalBathroom,
+      };
+    }
+    if (totalBedroom) {
+      options.state = {
+        ...options.state,
+        totalBedroom,
+      };
+    }
+    if (price) {
+      options.state = {
+        ...options.state,
+        price,
+      };
+    }
+    Navigate("/all", options);
+  }
   return (
     <>
       <div className="flex flex-row justify-around">
@@ -27,50 +57,62 @@ export default function PriceSearch() {
         </Link>
       </div>
       <div>
-        <form>
+        <form onSubmit={searchListing}>
           <div className="flex flex-wrap my-6">
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 className="text-left block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="name"
+                htmlFor="totalBedroom"
               >
                 Numbers Bedroom
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                name="name"
+                name="totalBedroom"
                 type="number"
                 placeholder="e.g. 4"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setTotalBedroom(value);
+                }}
               />
             </div>
 
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 className="text-left block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="name"
+                htmlFor="totalBathroom"
               >
                 Numbers Bathroom
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                name="name"
+                name="totalBathroom"
                 type="number"
                 placeholder="e.g. 2"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setTotalBathroom(value);
+                }}
               />
             </div>
 
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 className="text-left block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="name"
+                htmlFor="price"
               >
                 Price
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                name="name"
+                name="price"
                 type="number"
                 placeholder="e.g. 200.000.000"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setPrice(value);
+                }}
               />
             </div>
           </div>
